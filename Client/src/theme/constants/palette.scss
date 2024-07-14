@@ -1,0 +1,175 @@
+:root {
+  //application colors / main colors
+  --white: #FCFCFD;
+  --primary: #2F34CD;
+  --secondary: #2226AD;
+  --light: #BEC0FF;
+  --extraPrimary: #A7A8D4;
+  --extraSecondary: #4E4546;
+
+
+    //colors
+    --black: #000000;
+    --green: green;
+    --successGreen: #2ecc71;
+    --infoBlue: #3498db;
+    --warningYellow: #f1c40f;
+    --errorRed: #e74c3c;
+    --pink: #ffc0cc;
+    --white: #ffff;
+    --slateGrey: silver;
+    --wheatColor: wheat;
+    --whiteSmokeColor: whiteSmoke;
+    --ghostWhiteColor: ghostWhite;
+    --cornFlowerBlue: cornflowerblue;
+    --testColor: #ffc0cc;
+  
+    //gaps
+    --g1: 1px;
+    --g2: 2px;
+    --g3: 3px;
+    --g4: 4px;
+    --g5: 5px;
+    --g6: 6px;
+    --g7: 7px;
+    --g8: 8px;
+    --g9: 9px;
+    --g10: 10px;
+    --g20: 20px;
+    --g30: 30px;
+    --g40: 40px;
+    --g50: 50px;
+  
+    //heights
+    --h5: 5px;
+    --h10: 10px;
+    --h15: 15px;
+    --h20: 20px;
+    --h50: 50px;
+    --hfull: 100%;
+    --hs30: 30vh;
+    --hs40: 40vh;
+    --hs100: 100vh;
+    --h100: 100px;
+    --h200: 200px;
+    --h300: 300px;
+    --h400: 400px;
+    --h500: 500px;
+    --h600: 600px;
+    --h700: 700px;
+    --h800: 800px;
+    --h900: 900px;
+    --h1000: 1000px;
+  
+    //paddings
+    --p2: 2px;
+    --p4: 4px;
+    --p5: 5px;
+    --p10: 10px;
+    --p15: 15px;
+    --p20: 20px;
+    --p30: 30px;
+    --p40: 40px;
+    --p50: 50px;
+    --p60: 60px;
+    --p70: 70px;
+    --p80: 80px;
+    --p90: 90px;
+    --p100: 100px;
+  
+    //radius
+    --rfull: 100%;
+    --r2: 2px;
+    --r4: 4px;
+    --r5: 5px;
+    --r10: 10px;
+    --r20: 20px;
+    --r30: 30px;
+    --r40: 40px;
+    --r50: 50px;
+    --r60: 60px;
+    --r70: 70px;
+    --r80: 80px;
+    --r90: 90px;
+    --r100: 100px;
+  
+    //margins
+    --m2: 2px;
+    --m4: 4px;
+    --m5: 5px;
+    --m10: 10px;
+    --m20: 20px;
+    --m30: 30px;
+    --m40: 40px;
+    --m50: 50px;
+    --m60: 60px;
+    --m70: 70px;
+    --m80: 80px;
+    --m90: 90px;
+    --m100: 100px;
+  
+    //shadows
+    --defShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    --hvShadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
+    //sizes
+    --fs10: 10px;
+    --fs12: 12px;
+    --fs15: 15px;
+    --fs20: 20px;
+    --fs30: 30px;
+    --fs40: 40px;
+    --fs50: 50px;
+    --fs60: 60px;
+    --fs70: 70px;
+    --fs80: 80px;
+    --fs90: 90px;
+    --fs100: 100px;
+    --fs150: 150px;
+    --fs200: 200px;
+  
+    //weights
+    --fw100: 100;
+    --fw200: 200;
+    --fw300: 300;
+    --fw400: 400;
+    --fw500: 500;
+  
+    //widths
+    --w1: 1px
+    --w2: 2px;
+    --w5: 5px;
+    --w10: 10px;
+    --w15: 15px;
+    --w20: 20px;
+    --w50: 50px;
+    --wfull: 100%;
+    --w30p: 30%;
+    --w35p: 35%;
+    --whalf: 50%;
+    --w75p: 75%;
+    --ws30: 30vw;
+    --ws40: 40vw;
+    --ws100: 100vw;
+    --w100: 100px;
+    --w200: 200px;
+    --w300: 300px;
+    --w400: 400px;
+    --w500: 500px;
+    --w600: 600px;
+    --w700: 700px;
+    --w800: 800px;
+    --w900: 900px;
+    --w1000: 1000px;
+  
+    //borders
+    --line: 1px solid var(--black);
+    --borderInfo: 2px solid var(--infoBlue);
+    --borderSuccess: 2px solid var(--successGreen);
+    --borderWarning: 2px solid var(--warningYellow);
+    --borderError: 2px solid var(--errorRed);
+    --wheatBorder: 1px solid var(--wheatColor);
+    --whiteSmokeBorder: 1px solid var(--whiteSmokeColor);
+    --borderCornFlowerBlue: 1px solid var(--cornFlowerBlue);
+  }
+  
