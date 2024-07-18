@@ -1,0 +1,82 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: var(--w300);
+  width: var(--w400);
+  gap: var(--g20);
+}
+
+.heading {
+  color: var(--white);
+}
+
+.subHeading {
+  color: var(--extraSecondary);
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--g5);
+  padding-top: var(--p10);
+  padding-bottom: var(--p10);
+}
+
+.termsConditionsWrapper {
+  display: flex;
+  flex-direction: "row";
+  justify-content: flex-start;
+  gap: var(--g10);
+  align-items: center;
+}
+
+.termsConditionSentence {
+  color: var(--white);
+}
+
+.checkbox {
+  width: var(--w20);
+  height: var(--h20);
+  padding-top: var(--p10);
+  background-color: pink;
+  border-radius: 50px;
+}
+
+.submitButton {
+  color: var(--white);
+  padding-top: var(--p15);
+  padding-bottom: var(--p15);
+  padding-left: var(--p30);
+  padding-right: var(--p30);
+  margin-top: var(--m10);
+  margin-bottom: var(--m10);
+  background-color: var(--primary);
+  box-shadow: var(--defShadow);
+  border-radius: var(--r10);
+  border: none;
+  text-align: center;
+}
+
+.submitButton:hover {
+  background-color: var(--secondary);
+}
+
+.footerSentence {
+  padding: var(--p2);
+}
+
+.doNotHaveAccount {
+  color: var(--extraSecondary);
+  text-align: center;
+}
+
+.termsConditionAnchor {
+  color: var(--extraSecondary);
+}
+
+.signUpAnchor {
+  color: var(--white);
+}

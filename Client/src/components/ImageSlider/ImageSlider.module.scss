@@ -1,0 +1,57 @@
+.imageSliderContainer {
+  padding-top: 20px;
+  padding-left: 6px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.imageSliderWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--g10);
+  max-width: 800px;
+  transition: transform 4s ease;
+}
+
+.dotsContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 20px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  // border-width: 10px;
+  background-color: var(--extraSecondary);
+  cursor: pointer;
+}
+
+.animate-increase-width {
+  animation-name: animateIncreaseWidth;
+  animation-duration: 5s;
+}
+
+@keyframes animateIncreaseWidth {
+  from {
+    width: 10px;
+    border-radius: 100%;
+  }
+  to {
+    width: 50px;
+    border-radius: 10px;
+  }
+}
+
+.imageStyling {
+  max-width: 800px;
+  height: 500px;
+  border-radius: 10px;
+  box-shadow: var(--defShadow);
+}

@@ -10,13 +10,11 @@ const BackDropScreen = () => {
           <h1 className={`styles.title`}>Eccho</h1>
         </div>
         <div
-          className={`${styles.contentBased} ${styles.positionAbsolute} ${styles.glass} ${styles.overlay}`}
-        >
-          hi
-        </div>
-        <div
           className={`${styles.fullScreen} ${styles.noHorizontalScroll} ${styles.noVerticalScroll} ${styles.test}`}
         />
+        <div
+          className={`${styles.positionAbsolute} ${styles.glass} ${styles.overlay}`}
+        ></div>
       </div>
     </>
   );

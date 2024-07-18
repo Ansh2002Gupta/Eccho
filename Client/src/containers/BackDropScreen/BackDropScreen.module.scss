@@ -11,12 +11,7 @@
   padding-bottom: var(--p20);
   padding-left: var(--p30);
   padding-right: var(--p30);
-  color: var(--white);
-}
-
-.contentBased {
-  width: var(--ws100);
-  height: var(--hs40);
+  color: var(--extraSecondary);
 }
 
 .test {
@@ -60,4 +55,13 @@
   margin-bottom: var(--m50);
   margin-left: var(--m30);
   margin-right: var(--m30);
+  padding-top: var(--p30);
+  padding-bottom: var(--p30);
+  padding-left: var(--p30);
+  padding-right: var(--p30);
+  display: "flex";
+  flex-direction: row;
+  overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -49,6 +49,8 @@
     --hfull: 100%;
     --hs30: 30vh;
     --hs40: 40vh;
+    --hs80: 80vh;
+    --hs92: 92vh;
     --hs100: 100vh;
     --h100: 100px;
     --h200: 200px;
@@ -109,6 +111,7 @@
     --m100: 100px;
   
     //shadows
+    --primaryBoxShadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     --defShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     --hvShadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   
@@ -150,6 +153,10 @@
     --w75p: 75%;
     --ws30: 30vw;
     --ws40: 40vw;
+    --ws90: 90vw;
+    --ws92: 92vw;
+    --ws93: 93vw;
+    --ws95: 95vw;
     --ws100: 100vw;
     --w100: 100px;
     --w200: 200px;

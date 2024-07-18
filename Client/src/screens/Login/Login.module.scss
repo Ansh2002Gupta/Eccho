@@ -1,0 +1,100 @@
+@import "src/theme/constants/palette.scss";
+
+.fullScreen {
+  width: var(--ws100);
+  height: var(--hs100);
+}
+
+.titleContainer {
+  width: var(--wfull);
+  padding-left: var(--p40);
+  color: var(--extraSecondary);
+  text-align: left;
+}
+
+.test {
+  background: rgb(34, 38, 173);
+  background: radial-gradient(
+    circle,
+    rgba(34, 38, 173, 1) 16%,
+    rgba(47, 52, 205, 1) 47%,
+    rgba(167, 168, 212, 1) 78%
+  );
+}
+
+.positionRelative {
+  position: relative;
+}
+
+.positionAbsolute {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.noHorizontalScroll {
+  overflow-x: hidden;
+}
+
+.noVerticalScroll {
+  overflow-y: hidden;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.overlay {
+  margin-top: var(--m80);
+  margin-bottom: var(--m50);
+  margin-left: var(--m40);
+  padding-top: var(--p30);
+  padding-bottom: var(--p30);
+  padding-left: var(--p30);
+  padding-right: var(--p30);
+  display: "flex";
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.secondaryWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+
+.title {
+  font-size: 50px;
+  background: -webkit-linear-gradient(var(--extraPrimary), var(--secondary));
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.circle1 {
+  position: absolute;
+  top: -500px;
+  left: -500px;
+  background-color: var(--extraPrimary);
+  width: 1000px;
+  height: 1000px;
+  border-radius: 100%;
+  box-shadow: var(--defShadow);
+}
+
+.circle2 {
+  position: absolute;
+  bottom: -550px;
+  right: -500px;
+  background-color: var(--extraPrimary);
+  width: 1000px;
+  height: 1000px;
+  border-radius: 100%;
+  box-shadow: var(--defShadow);
+}
