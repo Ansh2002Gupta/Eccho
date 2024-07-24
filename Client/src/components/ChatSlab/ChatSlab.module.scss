@@ -1,0 +1,127 @@
+.parentContainer {
+  padding: var(--p15);
+  background-color: var(--light);
+  color: var(--extraSecondary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--g5);
+  box-shadow: var(--defShadow);
+  padding-left: var(--p30);
+  padding-right: var(--p30);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary);
+  }
+
+  &.active {
+    background-color: var(--primary);
+  }
+
+  &.inactive {
+    background-color: var(--light);
+  }
+}
+
+.contactPersonImage {
+  width: 60px;
+
+  border: 5px solid var(--white);
+  border-radius: 100%;
+  box-shadow: var(--defShadow);
+}
+
+.secondaryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--g5);
+  width: var(--wfull);
+  flex-wrap: wrap;
+  text-overflow: ellipsis;
+}
+
+.userNameAndDateContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userName {
+  color: var(--extraSecondary);
+  font-size: larger;
+  font-weight: 600;
+
+  &.userName_active {
+    color: var(--white);
+  }
+
+  &.userName_inactive {
+    color: var(--extraSecondary);
+  }
+}
+
+.lastMessageTime {
+  color: var(--extraSecondary);
+  font-size: smaller;
+  font-weight: var(--fw600);
+
+  &.lastMessageTime_active {
+    color: var(--white);
+  }
+
+  &.lastMessageTime_inactive {
+    color: var(--extraSecondary);
+  }
+}
+
+.lastestMessageAndUnReadMsgCountContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.latestMessage {
+  max-width: 200px;
+  font-size: smaller;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--extraSecondary);
+
+  &.lastestMessage_active {
+    color: var(--white);
+  }
+
+  &.lastestMessage_inactive {
+    color: var(--extraSecondary);
+  }
+}
+
+.count {
+  width: 20px;
+  height: 20px;
+  font-size: smaller;
+  background-color: var(--secondary);
+  color: var(--white);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--defShadow);
+  border-radius: 100%;
+  margin-right: var(--m5);
+
+  &.count_active {
+    background-color: var(--white);
+    color: var(--secondary);
+  }
+
+  &.count_inactive {
+    background-color: var(--secondary);
+    color: var(--white);
+  }
+}

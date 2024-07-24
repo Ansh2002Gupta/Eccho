@@ -1,0 +1,13 @@
+.mainPageContainer {
+  position: relative;
+}
+
+.messagingArena {
+  position: relative;
+  top: var(--w90);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: var(--m90);
+}

@@ -46,6 +46,9 @@
     --h15: 15px;
     --h20: 20px;
     --h50: 50px;
+    --h60: 60px;
+    --h70: 70px;
+    --h90p: 90%;
     --hfull: 100%;
     --hs30: 30vh;
     --hs40: 40vh;
@@ -111,6 +114,7 @@
     --m100: 100px;
   
     //shadows
+    --primaryTextShadow: 2px 4px 4px rgba(0,0,0,0.2), 0px -5px 10px rgba(255,255,255,0.15);
     --primaryBoxShadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     --defShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     --hvShadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -137,6 +141,8 @@
     --fw300: 300;
     --fw400: 400;
     --fw500: 500;
+    --fw600: 600;
+    --fw700: 700;
   
     //widths
     --w1: 1px
@@ -146,6 +152,11 @@
     --w15: 15px;
     --w20: 20px;
     --w50: 50px;
+    --w60: 60px;
+    --w70: 70px;
+    --w80: 80px;
+    --w90: 90px;
+    --w100: 100px;
     --wfull: 100%;
     --w30p: 30%;
     --w35p: 35%;

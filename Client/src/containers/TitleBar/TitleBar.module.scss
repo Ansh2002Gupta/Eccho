@@ -1,0 +1,106 @@
+.TitleBarContainer {
+  position: fixed;
+  background: linear-gradient(135deg, var(--white) 70%, var(--primary) 30%);
+  width: var(--ws100);
+  box-shadow: var(--defShadow);
+  max-height: var(--h90);
+  padding-left: var(--p5);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.searchBarContainer {
+  border: 1px solid var(--extraSecondary);
+  border-radius: var(--r30);
+  padding-top: var(--p5);
+  padding-bottom: var(--p5);
+  padding-left: var(--p10);
+  padding-right: var(--p10);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: var(--m100);
+}
+
+.inputArea {
+  border: none;
+  text-decoration: none;
+  outline: none;
+  width: 20vw;
+  transition: width 0.5s ease;
+}
+
+.inputArea:hover {
+  width: 50vw;
+}
+
+.adornmentImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--g10);
+  background-color: var(--primary);
+  padding-top: var(--p10);
+  padding-bottom: var(--p10);
+  padding-right: var(--p10);
+}
+
+.inColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--g5);
+  justify-content: center;
+  align-items: center;
+}
+
+.inRow {
+  display: flex;
+  flex-direction: row;
+  gap: var(--g5);
+  justify-content: center;
+  align-items: center;
+}
+
+.userName {
+  text-align: center;
+  text-overflow: ellipsis;
+  text-shadow: var(--primaryTextShadow);
+  color: var(--white);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  box-shadow: var(--defShadow);
+  background-color: var(--successGreen);
+}
+
+.onlineStatus {
+  text-align: center;
+  text-overflow: ellipsis;
+  color: var(--light);
+}
+
+.profilePhotoContainer {
+  border: var(--w5) solid var(--white);
+  box-shadow: var(--defShadow);
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+}

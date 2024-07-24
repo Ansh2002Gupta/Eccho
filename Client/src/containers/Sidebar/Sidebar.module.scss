@@ -1,0 +1,62 @@
+.sidebarContainer {
+  position: fixed;
+  max-width: var(--w70);
+  height: var(--hs100);
+  background-color: var(--primary);
+  box-shadow: var(--defShadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-left: var(--p15);
+  padding-right: var(--p15);
+  z-index: 3;
+}
+
+.logoutContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--m20);
+  margin-bottom: var(--m20);
+}
+
+.navigationIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white);
+  color: var(--secondary);
+  box-shadow: var(--defShadow);
+  padding: var(--p5);
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 20px;
+  padding: var(--p5);
+  cursor: pointer;
+  scale: 1;
+  transition: scale 0.5s ease;
+  &:hover {
+    scale: 1.2;
+    transition: scale 0.5s ease;
+  }
+}
+
+.primaryNavigationsContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: var(--g10);
+  justify-content: center;
+  align-items: center;
+}
+
+.secondaryNavigationsContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: var(--g10);
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--m20);
+}

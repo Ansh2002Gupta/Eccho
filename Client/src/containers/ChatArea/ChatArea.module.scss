@@ -1,0 +1,213 @@
+.parentContainer {
+  width: 70%;
+  display: flex;
+  overflow: hidden;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.userContainerWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--white);
+  padding-top: var(--p20);
+  padding-bottom: var(--p20);
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--g10);
+  margin-left: var(--m40);
+}
+
+.inColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--g5);
+  justify-content: flex-start;
+}
+
+.inRow {
+  display: flex;
+  flex-direction: row;
+  gap: var(--g8);
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: var(--m40);
+}
+
+.inRow_messages_outgoing {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: var(--g8);
+  align-items: center;
+  margin-right: var(--m40);
+}
+
+.inRow_messages_incoming {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: var(--g8);
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: var(--m40);
+}
+
+.userName {
+  text-align: center;
+  text-overflow: ellipsis;
+  text-shadow: var(--primaryTextShadow);
+  color: var(--extraSecondary);
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
+  box-shadow: var(--defShadow);
+  background-color: var(--successGreen);
+}
+
+.onlineStatus {
+  text-align: center;
+  text-overflow: ellipsis;
+  color: var(--light);
+}
+
+.profilePhotoContainer {
+  border: var(--w5) solid var(--white);
+  box-shadow: var(--defShadow);
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+
+.profilePhotoContainer_messaging_area {
+  border: var(--w1) solid var(--white);
+  box-shadow: var(--defShadow);
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+}
+
+.extraServicesIcon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background-color: white;
+  box-shadow: var(--defShadow);
+  border: 2px solid var(--light);
+  cursor: pointer;
+  scale: 1;
+  transition: scale 0.5s ease;
+  &:hover {
+    scale: 1.2;
+    transition: scale 0.5s ease;
+  }
+}
+
+.inputArea {
+  width: 100%;
+  padding-top: var(--p20);
+  padding-bottom: var(--p20);
+}
+
+.messagingArea {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  // flex-wrap: wrap;
+  gap: var(--g20);
+  border-top: 1px solid var(--slateGrey);
+  border-bottom: 1px solid var(--slateGrey);
+  margin-left: var(--m40);
+  margin-right: var(--m40);
+  overflow: scroll;
+  padding-top: var(--p20);
+  padding-bottom: var(--p20);
+  padding-left: var(--p10);
+  padding-right: var(--p10);
+}
+
+.messageBox {
+  padding-top: var(--p20);
+  padding-bottom: var(--p20);
+  padding-left: var(--p40);
+  padding-right: var(--p40);
+  border: none;
+  outline: none;
+  text-decoration: none;
+  box-shadow: var(--defShadow);
+  border-radius: 50px;
+  margin-left: var(--m40);
+  margin-right: var(--m20);
+  border: 2px solid var(--light);
+  width: 65%;
+}
+
+.sendButton {
+  background-color: var(--light);
+}
+
+.messageContainer {
+  max-width: 60%;
+  background-color: var(--white);
+  padding-top: var(--p10);
+  padding-bottom: var(--p10);
+  padding-left: var(--p20);
+  padding-right: var(--p20);
+  box-shadow: var(--defShadow);
+  border-radius: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.extraStyling_messageContainer_incoming {
+  background-color: var(--light);
+  color: var(--white);
+}
+
+.message {
+  font-size: small;
+}
+
+.dateIdentifier {
+  width: 100%;
+  text-align: center;
+}
+
+.dateStyling {
+  background-color: var(--extraPrimary);
+  border-radius: 25px;
+  box-shadow: var(--defShadow);
+  padding-top: var(--p5);
+  padding-bottom: var(--p5);
+  padding-left: var(--p10);
+  padding-right: var(--p10);
+  color: var(--white);
+}
+
+.time {
+  font-size: small;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  color: var(--slateGrey);
+}
