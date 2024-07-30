@@ -23,6 +23,7 @@
   gap: var(--g5);
   padding-top: var(--p10);
   padding-bottom: var(--p10);
+  margin-right: var(--m10);
 }
 
 .termsConditionsWrapper {
@@ -57,18 +58,41 @@
   box-shadow: var(--defShadow);
   border-radius: var(--r10);
   border: none;
-  text-align: center;
+  cursor: pointer;
 }
 
 .submitButton:hover {
   background-color: var(--secondary);
 }
 
+.submitButton:disabled {
+  background-color: var(--light);
+  cursor: not-allowed;
+}
+
 .footerSentence {
   padding: var(--p2);
 }
 
+.footerSentenceButton {
+  padding-top: var(--p5);
+  padding-bottom: var(--p5);
+  padding-left: var(--p5);
+  padding-right: var(--p5);
+  background-color: transparent;
+  color: var(--white);
+  outline: none;
+  border: none;
+  font-size: large;
+  cursor: pointer;
+}
+
 .doNotHaveAccount {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: var(--g10);
   color: var(--extraSecondary);
   text-align: center;
 }

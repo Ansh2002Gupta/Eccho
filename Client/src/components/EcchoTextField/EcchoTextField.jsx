@@ -35,6 +35,9 @@ const EcchoTextField = (props) => {
       <CustomTextField
         type={props.type}
         label={props.label}
+        value={props.value}
+        onChange={props.onChange}
+        onBlur={props.onBlur}
         id="outlined-start-adornment"
         sx={{ ...props.customStyles }}
         InputProps={
@@ -69,6 +72,7 @@ const EcchoTextField = (props) => {
                 ),
               }
         }
+        error={props.isError}
         helperText={props.helperText}
         required={props.isRequired}
       />

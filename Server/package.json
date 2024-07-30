@@ -4,7 +4,7 @@
   "description": "A next generation, out-of-box, user friendly and peaceful messaging application for web.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -19,8 +19,13 @@
   "author": "Ansh Gupta, Software Developer.",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.4.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.1",
     "nodemon": "^3.1.4"
   }
 }

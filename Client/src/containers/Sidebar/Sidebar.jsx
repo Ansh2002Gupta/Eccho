@@ -1,5 +1,7 @@
 import React from "react";
+import { motion } from "framer-motion";
 
+import EcchoToolTip from "../../hocs/EcchoToolTip/EcchoToolTip";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import ChatIcon from "@mui/icons-material/Chat";
 import PersonIcon from "@mui/icons-material/Person";
@@ -12,28 +14,40 @@ const Sidebar = () => {
   return (
     <div className={`${styles.sidebarContainer}`}>
       <div className={`${styles.logoutContainer}`}>
-        <div className={`${styles.navigationIcon}`}>
-          <PowerSettingsNewIcon fontSize="large" />
-        </div>
+        <EcchoToolTip title="Logout" position="right">
+          <div className={`${styles.navigationIcon}`}>
+            <PowerSettingsNewIcon fontSize="large" />
+          </div>
+        </EcchoToolTip>
       </div>
       <div className={`${styles.primaryNavigationsContainer}`}>
-        <div className={`${styles.navigationIcon}`}>
-          <ChatIcon fontSize="large" />
-        </div>
-        <div className={`${styles.navigationIcon}`}>
-          <PersonIcon fontSize="large" />
-        </div>
-        <div className={`${styles.navigationIcon}`}>
-          <GridViewIcon fontSize="large" />
-        </div>
+        <EcchoToolTip title="Chats" position="right">
+          <div className={`${styles.navigationIcon}`}>
+            <ChatIcon fontSize="large" />
+          </div>
+        </EcchoToolTip>
+        <EcchoToolTip title="Contacts" position="right">
+          <div className={`${styles.navigationIcon}`}>
+            <PersonIcon fontSize="large" />
+          </div>
+        </EcchoToolTip>
+        <EcchoToolTip title="Groups" position="right">
+          <div className={`${styles.navigationIcon}`}>
+            <GridViewIcon fontSize="large" />
+          </div>
+        </EcchoToolTip>
       </div>
       <div className={`${styles.secondaryNavigationsContainer}`}>
-        <div className={`${styles.navigationIcon}`}>
-          <SettingsIcon fontSize="large" />
-        </div>
-        <div className={`${styles.navigationIcon}`}>
-          <SegmentIcon fontSize="large" />
-        </div>
+        <EcchoToolTip title="Settings" position="right">
+          <div className={`${styles.navigationIcon}`}>
+            <SettingsIcon fontSize="large" />
+          </div>
+        </EcchoToolTip>
+        <EcchoToolTip title="Future" position="right">
+          <div className={`${styles.navigationIcon}`}>
+            <SegmentIcon fontSize="large" />
+          </div>
+        </EcchoToolTip>
       </div>
     </div>
   );

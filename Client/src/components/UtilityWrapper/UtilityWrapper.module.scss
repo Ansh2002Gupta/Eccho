@@ -1,0 +1,41 @@
+.utilityWrapper {
+  position: relative;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  gap: var(--g10);
+  background-color: pink;
+  margin-left: var(--m10);
+  margin-right: var(--m5);
+}
+
+.rootUtilityButton {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  color: var(--secondary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: var(--defShadow);
+  background-color: var(--white);
+  cursor: pointer;
+}
+
+.childUtilityButton {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  box-shadow: var(--defShadow);
+  background-color: var(--secondary);
+  cursor: pointer;
+}
