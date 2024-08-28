@@ -104,3 +104,25 @@
 .signUpAnchor {
   color: var(--white);
 }
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: var(--p15);
+  padding-bottom: var(--p15);
+  padding-left: var(--p30);
+  padding-right: var(--p30);
+  margin-top: var(--m10);
+  margin-bottom: var(--m10);
+  background-color: var(--white);
+  box-shadow: var(--defShadow);
+  border-radius: var(--r10);
+  border: none;
+  cursor: pointer;
+}
+
+.loader {
+  width: var(--w20);
+  height: var(--h20);
+}

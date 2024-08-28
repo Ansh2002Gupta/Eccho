@@ -52,8 +52,11 @@
     --hfull: 100%;
     --hs30: 30vh;
     --hs40: 40vh;
+    --hs60: 60vh;
     --hs80: 80vh;
+    --hs90: 90vh;
     --hs92: 92vh;
+    --hs98: 98vh;
     --hs100: 100vh;
     --h100: 100px;
     --h200: 200px;
@@ -73,6 +76,7 @@
     --p10: 10px;
     --p15: 15px;
     --p20: 20px;
+    --p25: 25px;
     --p30: 30px;
     --p40: 40px;
     --p50: 50px;
@@ -88,6 +92,7 @@
     --r4: 4px;
     --r5: 5px;
     --r10: 10px;
+    --r12: 12px;
     --r20: 20px;
     --r30: 30px;
     --r40: 40px;
@@ -164,6 +169,7 @@
     --w75p: 75%;
     --ws30: 30vw;
     --ws40: 40vw;
+    --ws60: 60vw;
     --ws90: 90vw;
     --ws92: 92vw;
     --ws93: 93vw;
@@ -182,6 +188,8 @@
   
     //borders
     --line: 1px solid var(--black);
+    --greySeparator: 2px solid var(--slateGrey);
+    --extraSecondarySeparator: 2px solid var(--extraSecondary);
     --borderInfo: 2px solid var(--infoBlue);
     --borderSuccess: 2px solid var(--successGreen);
     --borderWarning: 2px solid var(--warningYellow);

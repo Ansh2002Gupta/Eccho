@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 const { AVAILABILITY_STATUS } = require("../core/ServerConstants");
 
+mongoose.set("debug", true);
+
 const USERS = new Schema({
   Name: { type: String, default: undefined, required: true },
   Email: { type: String, default: undefined, required: true },
@@ -15,7 +17,8 @@ const USERS = new Schema({
     default: "https://picsum.photos/id/103/1920/1080",
   },
   Contacts: [{ type: Schema.Types.ObjectId, ref: "UserContacts" }],
-  GROUP_CHATS: [{ type: Schema.Types.ObjectId, ref: "GroupChats" }],
+  Group_chats: [{ type: Schema.Types.ObjectId, ref: "GroupChats" }],
+  Token: { type: String, default: undefined, required: true },
   CreatedAt: { type: Date, default: Date.now },
 });
 

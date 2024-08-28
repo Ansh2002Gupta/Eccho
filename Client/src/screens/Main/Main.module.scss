@@ -1,5 +1,8 @@
 .mainPageContainer {
   position: relative;
+  width: var(--ws100);
+  height: var(--hs100);
+  overflow: hidden;
 }
 
 .messagingArena {

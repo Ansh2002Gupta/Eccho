@@ -1,8 +1,7 @@
 import React from "react";
 
 import TextField from "@mui/material/TextField";
-import { Input, InputAdornment, styled } from "@mui/material";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import { InputAdornment, styled } from "@mui/material";
 
 const CustomTextField = styled(TextField)({
   "& .css-152mnda-MuiInputBase-input-MuiOutlinedInput-input": {
@@ -33,12 +32,11 @@ const EcchoTextField = (props) => {
   return (
     <>
       <CustomTextField
-        type={props.type}
+        type={props?.type}
         label={props.label}
         value={props.value}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        id="outlined-start-adornment"
         sx={{ ...props.customStyles }}
         InputProps={
           props.isStartAdornment && props.isEndAdornment

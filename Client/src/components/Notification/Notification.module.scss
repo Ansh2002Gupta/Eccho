@@ -1,0 +1,49 @@
+.parentContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: var(--wfull);
+}
+
+.notificationContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--g20);
+  padding-top: var(--p10);
+  padding-bottom: var(--p10);
+  padding-left: var(--p20);
+  padding-right: var(--p20);
+  color: var(--white);
+  font-size: medium;
+  box-shadow: var(--defShadow);
+  border-radius: var(--r5);
+}
+
+.errorNotificationStyling {
+  background-color: var(--errorRed);
+}
+
+.successNotificationStyling {
+  background-color: var(--successGreen);
+}
+
+.warningNotificationStyling {
+  background-color: var(--warningYellow);
+}
+
+.infoNotificationStyling {
+  background-color: var(--infoBlue);
+}
+.notificationImage {
+  width: 25px;
+  height: 25px;
+  padding: var(--p2);
+  border-radius: var(--wfull);
+  box-shadow: var(--defShadow);
+}

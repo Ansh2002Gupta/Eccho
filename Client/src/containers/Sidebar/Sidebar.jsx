@@ -9,13 +9,22 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SegmentIcon from "@mui/icons-material/Segment";
 import GridViewIcon from "@mui/icons-material/GridView";
 import styles from "./Sidebar.module.scss";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes";
+import ContactPopUp from "../ContactPopUp/ContactPopUp";
 
-const Sidebar = () => {
+const Sidebar = ({ setPopUpElement }) => {
+  const navigate = useNavigate();
+  const triggerLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate(routes.SIGNIN);
+  };
+
   return (
     <div className={`${styles.sidebarContainer}`}>
       <div className={`${styles.logoutContainer}`}>
         <EcchoToolTip title="Logout" position="right">
-          <div className={`${styles.navigationIcon}`}>
+          <div className={`${styles.navigationIcon}`} onClick={triggerLogout}>
             <PowerSettingsNewIcon fontSize="large" />
           </div>
         </EcchoToolTip>
@@ -27,7 +36,10 @@ const Sidebar = () => {
           </div>
         </EcchoToolTip>
         <EcchoToolTip title="Contacts" position="right">
-          <div className={`${styles.navigationIcon}`}>
+          <div
+            className={`${styles.navigationIcon}`}
+            onClick={() => setPopUpElement(<ContactPopUp />)}
+          >
             <PersonIcon fontSize="large" />
           </div>
         </EcchoToolTip>

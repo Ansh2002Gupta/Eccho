@@ -1,0 +1,118 @@
+.glassContainer {
+  position: relative;
+  min-width: var(--ws40);
+  max-height: var(--hs60);
+  overflow-y: scroll;
+  scrollbar-width: 1px !important;
+  scroll-behavior: smooth;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: var(--light);
+  border-radius: var(--r12);
+  border: 1px solid rgba(209, 213, 219, 0.3);
+}
+
+.contactHeading {
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  border-top-left-radius: var(--r12);
+  border-top-right-radius: var(--r12);
+  border-bottom: var(--extraSecondarySeparator);
+  padding-top: var(--p15);
+  padding-bottom: var(--p15);
+  padding-left: var(--p40);
+  padding-right: var(--p40);
+  background-color: var(--primary);
+  color: var(--white);
+  z-index: 1;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding-top: var(--p15);
+  padding-bottom: var(--p15);
+  padding-left: var(--p40);
+  padding-right: var(--p40);
+}
+
+.contactSlab {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--light);
+  border-bottom: var(--extraSecondarySeparator);
+  padding-top: var(--p15);
+  padding-bottom: var(--p15);
+  padding-left: var(--p5);
+  padding-right: var(--p5);
+}
+
+.contactPersonDetails {
+  display: flex;
+  flex-direction: row;
+  gap: var(--g10);
+  align-items: center;
+}
+
+.contactPersonImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  //   border: 5px solid var(--white);
+  box-shadow: var(--defShadow);
+}
+
+.actionButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--g10);
+  padding-top: var(--p10);
+  padding-bottom: var(--p10);
+  padding-left: var(--p25);
+  padding-right: var(--p25);
+  border-radius: var(--r5);
+  color: var(--white);
+  background-color: var(--primary);
+  border: none;
+  box-shadow: var(--defShadow);
+  cursor: pointer;
+}
+
+.contactPersonName {
+  color: var(--white);
+}
+
+.contactPersonAbout {
+  color: var(--extraSecondary);
+}
+
+.availabilityIndicator {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 100px;
+  background: var(--successGreen);
+  box-shadow: var(--defShadow);
+}
+
+.availabilityIndicator::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: 0px;
+  left: 0px;
+  transform: translate(25%, 25%);
+  border-radius: 100%;
+  box-shadow: var(--defShadow);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}

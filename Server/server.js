@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const connectToDB = require("./connections/mongodb");
 const dotenv = require("dotenv");
 const colors = require("colors");
@@ -8,6 +9,15 @@ dotenv.config();
 connectToDB().catch(console.dir);
 
 const app = express();
+app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    method: "GET,HEAD,POST,PATCH,PUT,DELETE",
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 const port = process.env.SERVER_PORT;
 
 //?apis' to check if the port is working.
@@ -28,6 +38,8 @@ app.get("/api/chat/:id", (req, res) => {
 });
 
 //?apis' to perform operations on the database.
-app.use("/api/authorization", authentication);
+app.use("/api/authentication", authentication);
 
-app.listen(port, () => console.log("Listing to port".blue.bold, port.red.bold));
+app.listen(port, () =>
+  console.log("Listing to port".blue.bgWhite.bold, port.red.bgWhite.bold)
+);

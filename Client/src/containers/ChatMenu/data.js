@@ -3,6 +3,7 @@ export const chatMenuItems = [
     id: 0,
     name: "Nicolas Klaus",
     image: "https://picsum.photos/id/101/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Hi there!",
@@ -26,6 +27,7 @@ export const chatMenuItems = [
     id: 1,
     name: "Jonas Mars",
     image: "https://picsum.photos/id/102/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Going, out tonight!!",
@@ -37,6 +39,7 @@ export const chatMenuItems = [
     id: 2,
     name: "Laura Viers",
     image: "https://picsum.photos/id/103/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Hi there!",
@@ -52,6 +55,7 @@ export const chatMenuItems = [
     id: 3,
     name: "Yummy Gautum",
     image: "https://picsum.photos/id/101/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Hi there!",
@@ -75,6 +79,7 @@ export const chatMenuItems = [
     id: 4,
     name: "Hauz Khas",
     image: "https://picsum.photos/id/101/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Hi there!",
@@ -98,6 +103,7 @@ export const chatMenuItems = [
     id: 5,
     name: "Nirmala Sitaraman",
     image: "https://picsum.photos/id/101/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Hi there!",
@@ -121,6 +127,7 @@ export const chatMenuItems = [
     id: 6,
     name: "Narendra modi",
     image: "https://picsum.photos/id/102/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Sab changa si!!",
@@ -132,6 +139,7 @@ export const chatMenuItems = [
     id: 7,
     name: "Laura Viers",
     image: "https://picsum.photos/id/103/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Hi there!",
@@ -147,6 +155,7 @@ export const chatMenuItems = [
     id: 8,
     name: "Nicolas Klaus",
     image: "https://picsum.photos/id/101/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Hi there!",
@@ -170,6 +179,7 @@ export const chatMenuItems = [
     id: 9,
     name: "Nicolas Klaus",
     image: "https://picsum.photos/id/101/1920/1080",
+    about: "Always available!",
     latestMessages: [
       {
         statement: "Hi there!",

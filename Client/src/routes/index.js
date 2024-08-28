@@ -1,4 +1,5 @@
 export const routes = {
-  HOME: "/",
-  CHATS: "/chat",
+  SIGNIN: "/sign-in",
+  SIGNUP: "/sign-up",
+  CHATS: "/chats",
 };
