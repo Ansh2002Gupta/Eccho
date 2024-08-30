@@ -38,7 +38,7 @@ const Sidebar = ({ setPopUpElement }) => {
         <EcchoToolTip title="Contacts" position="right">
           <div
             className={`${styles.navigationIcon}`}
-            onClick={() => setPopUpElement(<ContactPopUp />)}
+            onClick={() => setPopUpElement([<ContactPopUp {...{ setPopUpElement }} />])}
           >
             <PersonIcon fontSize="large" />
           </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import styles from "./PopUpWrapper.module.scss";
@@ -8,10 +8,6 @@ const PopUpWrapper = ({ popUpElement, setPopUpElement }) => {
   const { targetElement } = useOutsideClick({
     onOutsideClick: () => setPopUpElement(null),
   });
-
-  const enhancedChildren = React.Children.map(popUpElement, (element) =>
-    React.cloneElement(element, { targetElement })
-  );
 
   return (
     <AnimatePresence>
@@ -41,8 +37,9 @@ const PopUpWrapper = ({ popUpElement, setPopUpElement }) => {
                   },
                 }}
                 className={`${styles.popUpContainer}`}
+                ref={targetElement}
               >
-                {enhancedChildren}
+                {popUpElement}
               </motion.div>
             )}
           </AnimatePresence>

@@ -7,6 +7,7 @@ import ChatArea from "../../containers/ChatArea/ChatArea";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 import PopUpWrapper from "../../hocs/PopUpWrapper/PopUpWrapper";
+import Notification from "../../components/Notification/Notification";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Main = () => {
 
   return (
     <div className={`${styles.mainPageContainer}`}>
+      <Notification />
       <PopUpWrapper {...{ popUpElement, setPopUpElement }} />
       <TitleBar />
       <Sidebar {...{ setPopUpElement }} />

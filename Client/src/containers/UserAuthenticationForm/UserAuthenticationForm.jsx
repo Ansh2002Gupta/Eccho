@@ -166,6 +166,16 @@ const SignUpForm = ({ setIsFormDirty, formikRef }) => {
           adornmentImage: Loader,
         })
       );
+      dispatch(setAdminData({
+        name: localStorage.getItem('name'),
+        email: localStorage.getItem('email'),
+        phoneNumber: localStorage.getItem('phoneNumber'),
+      }));
+      dispatch(setOtherDetails({
+        about: localStorage.getItem('about'),
+        profilePicture: localStorage.getItem('profilePicture'),
+        status: localStorage.getItem('status'),
+      }))
     }
   }, []);
 
@@ -342,6 +352,16 @@ const SignInForm = ({ setIsFormDirty, formikRef }) => {
           adornmentImage: Loader,
         })
       );
+      dispatch(setAdminData({
+        name: localStorage.getItem('name'),
+        email: localStorage.getItem('email'),
+        phoneNumber: localStorage.getItem('phoneNumber'),
+      }));
+      dispatch(setOtherDetails({
+        about: localStorage.getItem('about'),
+        profilePicture: localStorage.getItem('profilePicture'),
+        status: localStorage.getItem('status'),
+      }));
     }
   }, []);
 
@@ -359,8 +379,12 @@ const SignInForm = ({ setIsFormDirty, formikRef }) => {
     })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response);
           localStorage.setItem("authToken", response?.data?.authToken);
+          localStorage.setItem('name', response?.data?.username);
+          localStorage.setItem('email', response?.data?.phoneNumber);
+          localStorage.setItem('about', response?.data?.about);
+          localStorage.setItem('profilePicture', response?.data?.profilePicture);
+          localStorage.setItem('status', response?.data?.status);
           dispatch(
             setAdminData({
               name: response?.data?.username,

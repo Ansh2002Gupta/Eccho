@@ -12,11 +12,13 @@
   border: 1px solid rgba(209, 213, 219, 0.3);
 }
 
-.contactHeading {
+.titleContainer {
   position: sticky;
   top: 0px;
   left: 0px;
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-top-left-radius: var(--r12);
   border-top-right-radius: var(--r12);
   border-bottom: var(--extraSecondarySeparator);
@@ -115,4 +117,22 @@
   box-shadow: var(--defShadow);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+.addNewButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--g10);
+  padding-top: var(--p10);
+  padding-bottom: var(--p10);
+  padding-left: var(--p20);
+  padding-right: var(--p20);
+  border-radius: var(--r5);
+  color: var(--white);
+  background-color: var(--green);
+  border: none;
+  box-shadow: var(--defShadow);
+  cursor: pointer;
 }

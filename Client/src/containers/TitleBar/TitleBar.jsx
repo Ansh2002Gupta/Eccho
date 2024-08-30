@@ -31,14 +31,14 @@ const TitleBar = () => {
       </div>
       <div className={`${styles.userContainer}`}>
         <div className={`${styles.inColumn}`}>
-          <h3 className={`${styles.userName}`}>{name}</h3>
+          <h3 className={`${styles.userName}`}>{name ?? localStorage.getItem('name')}</h3>
           <div className={`${styles.inRow}`}>
             <div className={`${styles.dot}`}></div>
-            <h5 className={`${styles.onlineStatus}`}>{status}</h5>
+            <h5 className={`${styles.onlineStatus}`}>{status ?? localStorage.getItem('status')}</h5>
           </div>
         </div>
         <img
-          src={profilePicture ?? "https://picsum.photos/id/102/1920/1080"}
+          src={profilePicture ?? localStorage.getItem('profilePicture') ?? "https://picsum.photos/id/102/1920/1080"}
           alt="profile photo"
           className={`${styles.profilePhotoContainer}`}
         />

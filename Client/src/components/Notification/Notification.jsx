@@ -55,9 +55,8 @@ const Notification = () => {
           className={`${styles.parentContainer}`}
         >
           <div
-            className={`${
-              styles.notificationContainer
-            } ${conditionalNotificationStylings()}`}
+            className={`${styles.notificationContainer
+              } ${conditionalNotificationStylings()}`}
           >
             <img
               src={adornmentImage}

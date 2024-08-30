@@ -4,6 +4,7 @@ const connectToDB = require("./connections/mongodb");
 const dotenv = require("dotenv");
 const colors = require("colors");
 const authentication = require("./routes/authentication");
+const operations = require("./routes/operations");
 
 dotenv.config();
 connectToDB().catch(console.dir);
@@ -12,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: 'http://127.0.0.1:5173',
     method: "GET,HEAD,POST,PATCH,PUT,DELETE",
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -39,6 +40,7 @@ app.get("/api/chat/:id", (req, res) => {
 
 //?apis' to perform operations on the database.
 app.use("/api/authentication", authentication);
+app.use("/api/operations", operations);
 
 app.listen(port, () =>
   console.log("Listing to port".blue.bgWhite.bold, port.red.bgWhite.bold)

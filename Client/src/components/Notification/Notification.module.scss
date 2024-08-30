@@ -7,6 +7,7 @@
   align-items: center;
   flex-wrap: wrap;
   width: var(--wfull);
+  z-index: 10;
 }
 
 .notificationContainer {
@@ -40,6 +41,7 @@
 .infoNotificationStyling {
   background-color: var(--infoBlue);
 }
+
 .notificationImage {
   width: 25px;
   height: 25px;

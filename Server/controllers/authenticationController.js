@@ -55,7 +55,7 @@ const signUpController = asyncHandler(async (req, res) => {
         authToken: newToken,
       });
     } else {
-      return res.status(400).json({
+      return res.status(500).json({
         internalError:
           "Internal Error | Sorry! Some error occured, Failed to create user!",
       });

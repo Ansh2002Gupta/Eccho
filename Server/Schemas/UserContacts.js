@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
-import { Schema } from "mongoose";
-import { AVAILABILITY_STATUS } from "../core/ServerConstants"; // Ensure this is imported correctly
+const mongoose = require("mongoose");
+const { Schema } = require("mongoose");
+const { AVAILABILITY_STATUS } = require("../core/ServerConstants");
 
 const USER_CONTACTS = new Schema({
-  Name: { type: String, default: undefined },
+  Name: { type: String, default: undefined, required: true},
   Email: { type: String, default: undefined },
-  PhoneNumber: { type: Number, default: undefined },
+  PhoneNumber: { type: Number, default: undefined, required: true},
   About: { type: String, default: "Indians use Eccho!" },
   Status: { type: String, default: AVAILABILITY_STATUS.OFFLINE },
   ProfilePicture: {
