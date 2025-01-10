@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 
 import styles from "./ChatSlab.module.scss";
 
 const ChatSlab = ({ contactPersonInfo, isActive, onClick }) => {
-  const { id, name, image, latestMessages } = contactPersonInfo;
+  const { _id: id, Name: name, ProfilePicture: image } = contactPersonInfo;
+  const latestMessages = [
+    {
+      statement: "Hi there!",
+      time: "12:00",
+    }
+  ];
 
   return (
     <div
-      className={`${styles.parentContainer} ${
-        isActive ? styles.active : styles.inactive
-      }`}
-      onClick={() => onClick(id)}
+      className={`${styles.parentContainer} ${isActive ? styles.active : styles.inactive
+        }`}
+      onClick={() => onClick(contactPersonInfo)}
     >
       <img
         className={`${styles.contactPersonImage}`}
@@ -20,36 +25,32 @@ const ChatSlab = ({ contactPersonInfo, isActive, onClick }) => {
       <div className={`${styles.secondaryContainer}`}>
         <div className={`${styles.userNameAndDateContainer}`}>
           <span
-            className={`${styles.userName} ${
-              isActive ? styles.userName_active : styles.userName_inactive
-            }`}
+            className={`${styles.userName} ${isActive ? styles.userName_active : styles.userName_inactive
+              }`}
           >
             {name}
           </span>
           <span
-            className={`${styles.lastMessageTime} ${
-              isActive
-                ? styles.lastMessageTime_active
-                : styles.lastMessageTime_inactive
-            }`}
+            className={`${styles.lastMessageTime} ${isActive
+              ? styles.lastMessageTime_active
+              : styles.lastMessageTime_inactive
+              }`}
           >
             {latestMessages[latestMessages.length - 1]?.time}
           </span>
         </div>
         <div className={`${styles.lastestMessageAndUnReadMsgCountContainer}`}>
           <span
-            className={`${styles.latestMessage} ${
-              isActive
-                ? styles.lastestMessage_active
-                : styles.lastestMessage_inactive
-            }`}
+            className={`${styles.latestMessage} ${isActive
+              ? styles.lastestMessage_active
+              : styles.lastestMessage_inactive
+              }`}
           >
             {latestMessages[latestMessages.length - 1]?.statement}
           </span>
           <span
-            className={`${styles.count} ${
-              isActive ? styles.count_active : styles.count_inactive
-            }`}
+            className={`${styles.count} ${isActive ? styles.count_active : styles.count_inactive
+              }`}
           >
             {latestMessages.length}
           </span>

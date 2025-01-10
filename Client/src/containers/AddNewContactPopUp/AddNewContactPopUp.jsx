@@ -9,7 +9,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import styles from './AddNewContactPopUp.module.scss';
 import { mergeRefs } from "../../utility/mergeRefs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { appConstants } from "../../config/app_constants";
 import { setLoading } from "../../redux/reducers/apiReducer";
 import axios from "axios";
@@ -20,6 +20,7 @@ const AddNewContactPopUp = ({ targetRef, setPopUpElement, setIsAddNewTriggered }
     const initialFormValues = { contactName: "", contactEmail: "", contactPhoneNumber: "" };
     const [isFormDirty, setIsFormDirty] = useState(false);
     const isfetchListAgain = useRef(false);
+    const adminId = useSelector((state) => state.adminContext.adminId);
     const dispatch = useDispatch();
 
     const handleFormSubmission = (values) => {
@@ -29,6 +30,7 @@ const AddNewContactPopUp = ({ targetRef, setPopUpElement, setIsAddNewTriggered }
             baseURL: appConstants.API_BASE_URL,
             url: "/operations/add-new-contact",
             data: {
+                adminId: adminId,
                 name: values.contactName,
                 email: values.contactEmail,
                 phoneNumber: values.contactPhoneNumber,

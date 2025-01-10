@@ -4,6 +4,7 @@ import { ACTIVITY_STATUS } from "../../config/app_constants";
 const adminSlice = createSlice({
   name: "adminContext",
   initialState: {
+    adminId: undefined,
     name: undefined,
     email: undefined,
     phoneNumber: undefined,
@@ -14,6 +15,7 @@ const adminSlice = createSlice({
   },
   reducers: {
     setAdminData: (state, action) => {
+      state.adminId = action.payload.id;
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.phoneNumber = action.payload.phoneNumber;

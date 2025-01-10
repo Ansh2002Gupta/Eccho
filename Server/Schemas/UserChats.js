@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
-import { Schema } from "mongoose";
+const mongoose = require("mongoose");
+const { Schema } = require("mongoose");
 
 const USER_CHATS = new Schema({
   Chats: [
     {
-      Owner: { type: Schema.Types.ObjectId, ref: "UserContacts" },
-      Message: { type: String, default: undefined },
+      Owner: {type: Schema.Types.ObjectId, ref: 'UserContacts', required: true},
+      Message: { type: String, default: null },
       CreatedAt: { type: Date, default: Date.now },
     },
   ],

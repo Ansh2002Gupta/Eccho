@@ -2,4 +2,25 @@
   width: var(--w30p);
   overflow: scroll;
   height: 90vh;
+  box-shadow: var(--defShadow);
+  z-index: 3;
+}
+
+.unEcchoedStmt {
+  font-size: var(--fs20);
+  font-style: italic;
+  color: var(--light);
+}
+
+.noEngagedContactsContainer {
+  width: var(--wfull);
+  height: var(--hfull);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  width: var(--w100);
+  height: var(--h100);
 }

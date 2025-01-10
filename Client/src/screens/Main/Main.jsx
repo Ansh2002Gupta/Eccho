@@ -11,6 +11,7 @@ import Notification from "../../components/Notification/Notification";
 
 const Main = () => {
   const navigate = useNavigate();
+  const [activeChatPartnerInfo, setActiveChatPartnerInfo] = useState(null);
   const [popUpElement, setPopUpElement] = useState(null);
 
   useEffect(() => {
@@ -19,6 +20,10 @@ const Main = () => {
     }
   }, [localStorage.getItem("authToken")]);
 
+  const handleActiveChatPartner = (partnerInfo) => {
+    setActiveChatPartnerInfo(partnerInfo);
+  }
+
   return (
     <div className={`${styles.mainPageContainer}`}>
       <Notification />
@@ -26,8 +31,8 @@ const Main = () => {
       <TitleBar />
       <Sidebar {...{ setPopUpElement }} />
       <div className={`${styles.messagingArena}`}>
-        <ChatMenu />
-        <ChatArea />
+        <ChatMenu setPartnerInfo={handleActiveChatPartner} />
+        <ChatArea partnerInfo={activeChatPartnerInfo} />
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ import ContactPopUp from "../ContactPopUp/ContactPopUp";
 const Sidebar = ({ setPopUpElement }) => {
   const navigate = useNavigate();
   const triggerLogout = () => {
-    localStorage.removeItem("authToken");
+    localStorage.clear();
     navigate(routes.SIGNIN);
   };
 

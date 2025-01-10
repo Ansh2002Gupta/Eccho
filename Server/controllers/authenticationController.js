@@ -88,6 +88,7 @@ const signInController = asyncHandler(async (req, res) => {
 
     return res.status(200).json({
       message: "Server: Signed in successfully!",
+      _id: registeredUser._id,
       username: registeredUser.Name,
       email: registeredUser.Email,
       phoneNumber: registeredUser.PhoneNumber,

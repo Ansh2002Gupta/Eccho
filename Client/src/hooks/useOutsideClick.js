@@ -5,8 +5,8 @@ const useOutsideClick = ({ onOutsideClick }) => {
   const exceptionalReference = useRef(null);
 
   useEffect(() => {
+    if(!targetElement.current) return;
     const handleOutsideClick = (event) => {
-      console.log('event:',event)
       if (
         targetElement?.current &&
         !targetElement?.current?.contains(event.target)

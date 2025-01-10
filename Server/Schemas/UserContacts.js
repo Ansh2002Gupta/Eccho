@@ -12,8 +12,11 @@ const USER_CONTACTS = new Schema({
     type: String,
     default: "https://picsum.photos/id/103/1920/1080",
   },
-  IsConnected: { type: Boolean, default: false },
-  Chats: [{ type: Schema.Types.ObjectId, ref: "UserChats" }],
+  ConnectInfo: {
+    type: Object,
+    of: {type: Schema.Types.ObjectId, ref: 'UserChats'},
+    default: {},
+  },
   CreatedAt: { type: Date, default: Date.now },
 });
 

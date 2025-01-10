@@ -42,7 +42,7 @@
   margin-right: var(--m40);
 }
 
-.inRow_messages_outgoing {
+.inRow_messages_incoming {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -51,7 +51,7 @@
   margin-left: var(--m10);
 }
 
-.inRow_messages_incoming {
+.inRow_messages_outgoing {
   display: flex;
   flex-direction: row;
   gap: var(--g8);
@@ -61,7 +61,6 @@
 }
 
 .userName {
-  text-align: center;
   text-overflow: ellipsis;
   text-shadow: var(--primaryTextShadow);
   color: var(--extraSecondary);
@@ -110,6 +109,7 @@
   cursor: pointer;
   scale: 1;
   transition: scale 0.5s ease;
+
   &:hover {
     scale: 1.2;
     transition: scale 0.5s ease;
