@@ -1,6 +1,7 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const Users = require("../Schemas/Users");
+const GuestUsers = require("../Schemas/GuestUsers");
 const generateToken = require("../config/generateToken");
 const colors = require("colors");
 const { AVAILABILITY_STATUS } = require("../core/ServerConstants");
@@ -37,11 +38,24 @@ const signUpController = asyncHandler(async (req, res) => {
       .json({ message: "Server: This email already exists!" });
   } else {
     const newToken = generateToken(email);
+    //c: if this email is present in my guest user table, then the uid & contacts of that document will be copied over here and that guest user entry is finally deleted.
+    const existingGuestUser = await GuestUsers.findOne({ Email: email });
+    if (existingGuestUser) {
+      try {
+        await GuestUsers.findByIdAndDelete(existingGuestUser._id);
+      } catch (error) {
+        console.error(`Error deleting guest user: ${error.message}`.red.bold);
+      }
+    }
     const newUser = await Users.create({
+      ...(existingGuestUser?._id ? { _id: existingGuestUser?._id } : {}),
       Name: username,
       Email: email,
       PhoneNumber: phoneNumber,
       Password: password,
+      ...(!existingGuestUser?.Contacts
+        ? {}
+        : { Contacts: existingGuestUser?.Contacts }),
       Token: newToken,
     });
     if (newUser) {
@@ -57,7 +71,7 @@ const signUpController = asyncHandler(async (req, res) => {
     } else {
       return res.status(500).json({
         internalError:
-          "Internal Error | Sorry! Some error occured, Failed to create user!",
+          "Internal Error | Sorry! Some error occured, failed to create user!",
       });
     }
   }
