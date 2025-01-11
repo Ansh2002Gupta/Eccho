@@ -16,7 +16,7 @@ const USERS = new Schema({
     type: String,
     default: "https://picsum.photos/id/103/1920/1080",
   },
-  Contacts: [{ type: Schema.Types.ObjectId, ref: "UserContacts" }],
+  Contacts: { type: Schema.Types.ObjectId, ref: "Contacts", default: null },
   Group_chats: [{ type: Schema.Types.ObjectId, ref: "GroupChats" }],
   Token: { type: String, default: undefined, required: true },
   CreatedAt: { type: Date, default: Date.now },
