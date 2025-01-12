@@ -227,30 +227,41 @@ const startChatController = asyncHandler(async (req, res) => {
 
 const fetchChatList = asyncHandler(async (req, res) => {
   const { adminId } = req.params;
-
   if (!adminId) {
     return res.status(400).json({ error: "Server: User ID is missing!" });
   }
-
   try {
-    const engagedContacts = await UserContacts.find({
-      [`ConnectInfo.${adminId}`]: { $exists: true, $ne: null },
-    });
-    //TODO: if no engaged contacts are found, then we should not through any api error, instead it should be handled on the frontend. If the api fails, due to a certain network issue or any other issue, then it should through an error.
-    if (!engagedContacts) {
-      return res
-        .status(404)
-        .json({ error: "Server: No engaged contacts found!" });
+    const adminDoc = await Users.find(adminId);
+    if (!adminDoc) {
+      return res.status(404).json({
+        error: "Server: Admin ID does not exists",
+      });
     }
-    const refactoredContacts = engagedContacts.map((document) => {
-      const doc = document._doc;
-      const chatId = doc.ConnectInfo[adminId];
-      const { ConnectInfo, ...otherFields } = doc;
-      return {
-        ...otherFields,
-        ChatId: chatId,
-      };
-    });
+    const adminContactsId = adminDoc?.Contacts;
+    if (!adminContactsId) {
+      return res.status(200).json({
+        message: "Server: No contacts found",
+      });
+    }
+    const contactDoc = await Contacts.findById(adminContactsId);
+    if (!contactDoc) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve contact information",
+      });
+    }
+    const contactList = contactDoc?.List;
+    if (!contactList || !contactList.length) {
+      return res.status(200).json({
+        message: "Server: No contacts found",
+      });
+    }
+    const engagedContacts = contactList.filter((contact) => contact?.ChatId);
+    if (!engagedContacts) {
+      return res.status(200).json({
+        message: "Server: No engaged contacts found",
+      });
+    }
     return res.status(200).json({
       message: "Successfully fetched chat list!",
       engagedContacts: refactoredContacts,
