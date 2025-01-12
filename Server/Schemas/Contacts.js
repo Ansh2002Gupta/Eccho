@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 const { AVAILABILITY_STATUS } = require("../core/ServerConstants");
 
+mongoose.set("debug", true);
+
 const CONTACTS = new Schema({
   List: [
     {
