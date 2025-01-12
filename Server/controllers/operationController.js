@@ -4,12 +4,18 @@ const UserContacts = require("../Schemas/UserContacts");
 const UserChats = require("../Schemas/UserChats");
 
 const newContactController = asyncHandler(async (req, res) => {
-  const { adminId, name, email = undefined, phoneNumber } = req.body;
+  const { adminId, name, email, phoneNumber } = req.body;
 
   if (!adminId) {
     return res
       .status(422)
       .json({ error: "Server: I think you forgot to enter adminId" });
+  }
+
+  if (!email) {
+    return res
+      .status(422)
+      .json({ error: "Server: I think you forgot to enter email" });
   }
 
   if (!name) {
