@@ -34,11 +34,22 @@ const newContactController = asyncHandler(async (req, res) => {
         error: "Server: Admin Id not found.",
       });
     }
+    const loggedInUser = await Users.find({ PhoneNumber: phoneNumber });
+    if (!loggedInUser) {
+      //TODO: implement the logic of guest user.
+    }
+    const loggedInUserId = loggedInUser._id;
     const contactId = adminDBData?.Contacts;
     if (!contactId) {
       const newContact = await Contacts.create({
         List: [
-          { Name: name, Email: email, PhoneNumber: phoneNumber, chatId: null },
+          {
+            _id: loggedInUserId,
+            Name: name,
+            Email: email,
+            PhoneNumber: phoneNumber,
+            chatId: null,
+          },
         ],
       });
       if (!newContact) {
@@ -212,6 +223,56 @@ const startChatController = asyncHandler(async (req, res) => {
     if (!updatedContactDoc) {
       return res.status(500).json({
         internalError: "Internal Error | Failed to update contact's chat id",
+      });
+    }
+    const loggedInContactDoc = await Users.findById(contactId);
+    if (!loggedInContactDoc) {
+      //TODO: implement guest user flow.
+    }
+    const loggedInContactId = loggedInContactDoc?.Contacts;
+    if (!loggedInContactId) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve logged-in contact information",
+      });
+    }
+    const loggedInContactContacts = await Contacts.findById(loggedInContactId);
+    if (!loggedInContactContacts) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve logged-in contact's contact list.",
+      });
+    }
+    const loggedInContactContactsList = loggedInContactContacts?.List;
+    if (
+      !loggedInContactContactsList ||
+      loggedInContactContactsList?.length === 0
+    ) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve logged-in contact's contact list.",
+      });
+    }
+    const newAdminContactData = {
+      _id: adminId,
+      Name: adminDoc?.Name,
+      Email: adminDoc?.Email,
+      PhoneNumber: adminDoc?.PhoneNumber,
+      About: adminDoc?.About,
+      ProfilePicture: adminDoc?.ProfilePicture,
+      Status: adminDoc?.Status,
+      chatId: newChatDocument?._id,
+    };
+    loggedInContactContactsList.push(newAdminContactData);
+    const updatedloggedInContactContactsDoc = await Contacts.updateOne(
+      { _id: loggedInContactId },
+      { $set: { List: loggedInContactContactsList } },
+      { upsert: true }
+    );
+    if (!updatedloggedInContactContactsDoc) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to update logged-in contact's contact list",
       });
     }
     return res.status(200).json({
