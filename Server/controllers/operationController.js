@@ -153,42 +153,71 @@ const getContactList = asyncHandler(async (req, res) => {
   }
 });
 
-//TODO: if the contact has already engaged with the current admin, then connectInfo[adminId] will not be null, so we should not create a new chat, instead we should return the existing chat id. If the contact has not engaged with the current admin, then we should create a new chat.
+//TODO: if the contact has already engaged with the current admin, then adminId.Contacts will not be null, so we should not create a new chat, instead we should return the existing chat id. If the contact has not engaged with the current admin, then we should create a new chat.
 const startChatController = asyncHandler(async (req, res) => {
   const { contactId, adminId } = req.body;
-
   if (!contactId) {
     return res.status(400).json({ error: "Server: Contact ID is missing!" });
   }
-
   if (!adminId) {
     return res.status(400).json({ error: "Server: Admin ID is missing!" });
   }
-
   try {
     const newChatDocument = await UserChats.create({
       Chats: [],
     });
-
     if (!newChatDocument) {
-      return res
-        .status(500)
-        .json({ internalError: "Internal Error | Failed to start new chat." });
+      return res.status(500).json({
+        internalError: "Internal Error | Failed to initialize a new chat.",
+      });
     }
-
-    const updatedContact = await UserContacts.findByIdAndUpdate(
-      contactId,
-      { $set: { [`ConnectInfo.${adminId}`]: newChatDocument?._id } },
-      { new: true }
+    const adminDoc = await Users.find(adminId);
+    if (!adminDoc) {
+      return res.status(404).json({
+        error: "Server: Admin ID does not exists",
+      });
+    }
+    const adminContactsId = adminDoc?.Contacts;
+    if (!adminContactsId) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve contact information",
+      });
+    }
+    const contactDoc = await Contacts.findById(adminContactsId);
+    if (!contactDoc) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve contact information",
+      });
+    }
+    const contactList = contactDoc?.List;
+    if (!contactList || contactList.length === 0) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve contact information",
+      });
+    }
+    const updatedList = contactList?.map((contact) => {
+      if (contact?._id === contactId) {
+        return { ...contact, chatId: newChatDocument?._id };
+      }
+      return contact;
+    });
+    const updatedContactDoc = await Contacts.updateOne(
+      { _id: adminContactsId },
+      { $set: { List: updatedList } },
+      { upsert: true }
     );
-
-    if (!updatedContact) {
-      return res.status(404).json({ error: "Server: Contact not found!" });
+    if (!updatedContactDoc) {
+      return res.status(500).json({
+        internalError: "Internal Error | Failed to update contact's chat id",
+      });
     }
-
-    return res
-      .status(201)
-      .json({ message: "Successfully started new chat!", chatId: contactId });
+    return res.status(200).json({
+      message: "Server: Chat initialized successfully!",
+      chatId: newChatDocument?._id,
+    });
   } catch (error) {
     return res
       .status(500)
