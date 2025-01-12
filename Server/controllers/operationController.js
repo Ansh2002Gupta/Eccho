@@ -114,18 +114,39 @@ const newContactController = asyncHandler(async (req, res) => {
 
 const getContactList = asyncHandler(async (req, res) => {
   const { adminId } = req.params;
-  console.log("adminId:", adminId);
+  if (!adminId) {
+    return res.status(400).json({ error: "Server: Admin ID is required!" });
+  }
   try {
-    const contacts = await UserContacts.find({
-      [`ConnectInfo.${adminId}`]: { $exists: true },
-    });
-    console.log("here");
+    const adminDBData = await Users.findById(adminId);
+    if (!adminDBData) {
+      return res.status(404).json({
+        error: "Server: Admin Id not found.",
+      });
+    }
+    const contactId = adminDBData?.Contacts;
+    if (!contactId) {
+      return res.status(200).json({
+        message: "Server: No contacts found for this admin.",
+      });
+    }
+    const adminContactsDoc = await Contacts.findById(contactId);
+    if (!adminContactsDoc) {
+      return res.status(404).json({
+        error: "Server: Contact Id does not exist.",
+      });
+    }
+    const contactList = adminContactsDoc?.List;
+    if (!contactList || contactList?.length === 0) {
+      return res.status(404).json({
+        error: "Server: No contacts found in the contact list.",
+      });
+    }
     return res.status(200).json({
-      message: "Successfully fetched contact list!",
-      contacts: contacts,
+      message: "Server: Contact list fetched successfully!",
+      contacts: contactList,
     });
   } catch (error) {
-    console.log("error here");
     return res.status(500).json({
       internalError: "Internal Error | Failed to fetch contact list.",
     });
