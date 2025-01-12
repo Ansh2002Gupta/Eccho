@@ -1,85 +1,113 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const UserContacts = require("../Schemas/UserContacts");
+const Contacts = require("../Schemas/Contacts");
+const Users = require("../Schemas/Users");
 const UserChats = require("../Schemas/UserChats");
 
 const newContactController = asyncHandler(async (req, res) => {
   const { adminId, name, email, phoneNumber } = req.body;
-
   if (!adminId) {
     return res
       .status(422)
       .json({ error: "Server: I think you forgot to enter adminId" });
   }
-
   if (!email) {
     return res
       .status(422)
       .json({ error: "Server: I think you forgot to enter email" });
   }
-
   if (!name) {
     return res
       .status(422)
       .json({ error: "Server: I think you forgot to enter contact name." });
   }
-
   if (!phoneNumber) {
     return res.status(422).json({
       error: "Server: I think you forgot to enter contact phone number.",
     });
   }
-
-  const existingContact = await UserContacts.findOne({
-    PhoneNumber: phoneNumber,
-  });
-
-  if (existingContact) {
-    if (Object.keys(existingContact.ConnectInfo).includes(adminId))
-      return res
-        .status(409)
-        .json({ error: "Server: This contact already exists for this user!" });
-
-    const updatedContact = await UserContacts.updateOne(
-      { PhoneNumber: phoneNumber },
-      { $set: { [`ConnectInfo.${adminId}`]: null } },
-      { upsert: true }
-    );
-    if (updatedContact) {
-      return res.status(200).json({
-        message: "Server: Updated existing contact's connection info!",
-        _id: existingContact._id,
-        name: existingContact.Name,
-        email: existingContact.Email,
-        phoneNumber: existingContact.PhoneNumber,
-        connectInfo: existingContact.ConnectInfo,
-      });
-    } else {
-      return res.status(500).json({
-        internalError: "Internal Error | Failed to update existing contact.",
+  try {
+    const adminDBData = await Users.findById(adminId);
+    if (!adminDBData) {
+      return res.status(404).json({
+        error: "Server: Admin Id not found.",
       });
     }
-  }
-
-  const newContact = await UserContacts.create({
-    Name: name,
-    Email: email,
-    PhoneNumber: phoneNumber,
-    ConnectInfo: { [adminId]: null },
-  });
-
-  if (newContact) {
-    return res.status(201).json({
-      message: "Server: Contact saved successfully!",
-      _id: newContact._id,
-      name: newContact.Name,
-      email: newContact.Email,
-      phoneNumber: newContact.PhoneNumber,
-      connectInfo: newContact.ConnectInfo,
-    });
-  } else {
+    const contactId = adminDBData?.Contacts;
+    if (!contactId) {
+      const newContact = await Contacts.create({
+        List: [
+          { Name: name, Email: email, PhoneNumber: phoneNumber, chatId: null },
+        ],
+      });
+      if (!newContact) {
+        return res.status(500).json({
+          internalError: "Internal Error | Failed to create new contact.",
+        });
+      }
+      const updatedAdminDoc = await Users.findByIdAndUpdate(
+        adminId,
+        { $set: { Contacts: newContact?._id } },
+        { new: true }
+      );
+      if (!updatedAdminDoc) {
+        return res.status(500).json({
+          internalError:
+            "Internal Error | Failed to update admin's contact list.",
+        });
+      }
+      return res.status(201).json({
+        message: "Server: Contact created successfully!",
+        contact: newContact,
+      });
+    } else {
+      const adminContactsDoc = await Contacts.findById(contactId);
+      if (!adminContactsDoc) {
+        return res.status(404).json({
+          error: "Server: Contact Id does not exist.",
+        });
+      }
+      const contactList = adminContactsDoc?.List;
+      const existingContact = contactList?.find(
+        (contact) => contact.PhoneNumber === phoneNumber
+      );
+      if (existingContact) {
+        return res
+          .status(409)
+          .json({ message: "Server: This contact already exists!" });
+      }
+      const newEntry = {
+        Name: name,
+        Email: email,
+        PhoneNumber: phoneNumber,
+        chatId: null,
+      };
+      contactList.push(newEntry);
+      const updatedAdminContactsDoc = await Contacts.updateOne(
+        { _id: contactId },
+        { $set: { List: contactList } },
+        { upsert: true }
+      );
+      if (!updatedAdminContactsDoc) {
+        return res.status(500).json({
+          internalError:
+            "Internal Error | Failed to update admin's contact list.",
+        });
+      } else {
+        return res.status(201).json({
+          message: "Server: New contact added successfully!",
+          _id: newEntry._id,
+          Name: newEntry.Name,
+          Email: newEntry.Email,
+          PhoneNumber: newEntry.PhoneNumber,
+          chatId: null,
+        });
+      }
+    }
+  } catch (error) {
     return res.status(500).json({
-      internalError: "Internal Error | Sorry! failed to add this contact.",
+      internalError: "Internal Error | Failed to create new contact.",
     });
   }
 });
