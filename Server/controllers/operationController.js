@@ -292,7 +292,7 @@ const fetchChatList = asyncHandler(async (req, res) => {
     return res.status(400).json({ error: "Server: User ID is missing!" });
   }
   try {
-    const adminDoc = await Users.find(adminId);
+    const adminDoc = await Users.findById(adminId);
     if (!adminDoc) {
       return res.status(404).json({
         error: "Server: Admin ID does not exists",
@@ -302,6 +302,7 @@ const fetchChatList = asyncHandler(async (req, res) => {
     if (!adminContactsId) {
       return res.status(200).json({
         message: "Server: No contacts found",
+        engagedContacts: [],
       });
     }
     const contactDoc = await Contacts.findById(adminContactsId);
@@ -315,12 +316,14 @@ const fetchChatList = asyncHandler(async (req, res) => {
     if (!contactList || !contactList.length) {
       return res.status(200).json({
         message: "Server: No contacts found",
+        engagedContacts: [],
       });
     }
     const engagedContacts = contactList.filter((contact) => contact?.ChatId);
     if (!engagedContacts) {
       return res.status(200).json({
         message: "Server: No engaged contacts found",
+        engagedContacts: [],
       });
     }
     return res.status(200).json({
