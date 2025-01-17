@@ -70,7 +70,7 @@ const newContactController = asyncHandler(async (req, res) => {
       }
       return res.status(201).json({
         message: "Server: Contact created successfully!",
-        contact: newContact,
+        data: { contact: newContact },
       });
     } else {
       const adminContactsDoc = await Contacts.findById(contactId);
@@ -139,6 +139,7 @@ const getContactList = asyncHandler(async (req, res) => {
     if (!contactId) {
       return res.status(200).json({
         message: "Server: No contacts found for this admin.",
+        data: { contacts: [] },
       });
     }
     const adminContactsDoc = await Contacts.findById(contactId);
@@ -155,7 +156,7 @@ const getContactList = asyncHandler(async (req, res) => {
     }
     return res.status(200).json({
       message: "Server: Contact list fetched successfully!",
-      contacts: contactList,
+      data: { contacts: contactList },
     });
   } catch (error) {
     return res.status(500).json({

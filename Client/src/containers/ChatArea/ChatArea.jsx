@@ -30,7 +30,7 @@ const ChatArea = ({ partnerInfo }) => {
   const dispatch = useDispatch(undefined);
   const [socket, setSocket] = useState(null);
 
-  console.log("partnerInfo:", partnerInfo);
+  if (!partnerInfo) return <></>;
 
   useEffect(() => {
     fetchChats({ isInitializeConnection: true });
