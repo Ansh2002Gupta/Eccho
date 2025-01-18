@@ -30,9 +30,8 @@ const ChatArea = ({ partnerInfo }) => {
   const dispatch = useDispatch(undefined);
   const [socket, setSocket] = useState(null);
 
-  if (!partnerInfo) return <></>;
-
   useEffect(() => {
+    if (!partnerInfo) return;
     fetchChats({ isInitializeConnection: true });
   }, [partnerInfo]);
 
@@ -40,7 +39,9 @@ const ChatArea = ({ partnerInfo }) => {
     const newSocket = io("http://localhost:8080");
     setSocket(newSocket);
     newSocket.emit("setup-socket-connection", adminId);
-    newSocket.on("connected-successfully", () => setSocketEstablished(true));
+    newSocket.on("connected-successfully", () =>
+      console.log("*****Socket Connection Succssfull*****")
+    );
 
     return () => {
       newSocket.disconnect();

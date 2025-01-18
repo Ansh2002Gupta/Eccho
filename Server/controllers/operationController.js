@@ -305,7 +305,7 @@ const fetchChatList = asyncHandler(async (req, res) => {
     if (!adminContactsId) {
       return res.status(200).json({
         message: "Server: No contacts found",
-        engagedContacts: [],
+        data: { engagedContacts: [] },
       });
     }
     const contactDoc = await Contacts.findById(adminContactsId);
@@ -319,19 +319,19 @@ const fetchChatList = asyncHandler(async (req, res) => {
     if (!contactList || !contactList.length) {
       return res.status(200).json({
         message: "Server: No contacts found",
-        engagedContacts: [],
+        data: { engagedContacts: [] },
       });
     }
     const engagedContacts = contactList.filter((contact) => contact?.ChatId);
     if (!engagedContacts) {
       return res.status(200).json({
         message: "Server: No engaged contacts found",
-        engagedContacts: [],
+        data: { engagedContacts: [] },
       });
     }
     return res.status(200).json({
       message: "Successfully fetched chat list!",
-      engagedContacts: refactoredContacts,
+      data: { engagedContacts },
     });
   } catch (error) {
     return res.status(500).json({

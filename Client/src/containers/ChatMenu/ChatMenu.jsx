@@ -49,7 +49,9 @@ const ChatMenu = ({ setPartnerInfo }) => {
       withCredentials: true,
     })
       .then((response) => {
-        dispatch(setList({ contactList: response?.data?.engagedContacts }));
+        dispatch(
+          setList({ contactList: response?.data?.data?.engagedContacts })
+        );
         dispatch(
           showNotification({
             isVisible: true,
