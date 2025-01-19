@@ -102,6 +102,7 @@ const ChatArea = ({ partnerInfo }) => {
         chatId: partnerInfo?.partnerChatId,
         ownerId: adminId,
         message: message,
+        targetUserId: partnerInfo?.partnerId,
       },
       withCredentials: true,
     })

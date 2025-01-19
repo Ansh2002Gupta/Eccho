@@ -1,9 +1,9 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
-const UserContacts = require("../Schemas/UserContacts");
 const Contacts = require("../Schemas/Contacts");
 const Users = require("../Schemas/Users");
 const UserChats = require("../Schemas/UserChats");
+const { initiateNewChatEngagement } = require("../services/newChatEngagement");
 
 const newContactController = asyncHandler(async (req, res) => {
   const { adminId, name, email, phoneNumber } = req.body;
@@ -228,56 +228,6 @@ const startChatController = asyncHandler(async (req, res) => {
         internalError: "Internal Error | Failed to update contact's chat id",
       });
     }
-    // const loggedInContactDoc = await Users.findById(contactId);
-    // if (!loggedInContactDoc) {
-    //   //TODO: implement guest user flow.
-    // }
-    // const loggedInContactId = loggedInContactDoc?.Contacts;
-    // if (!loggedInContactId) {
-    //   return res.status(500).json({
-    //     internalError:
-    //       "Internal Error | Failed to retrieve logged-in contact information",
-    //   });
-    // }
-    // const loggedInContactContacts = await Contacts.findById(loggedInContactId);
-    // if (!loggedInContactContacts) {
-    //   return res.status(500).json({
-    //     internalError:
-    //       "Internal Error | Failed to retrieve logged-in contact's contact list.",
-    //   });
-    // }
-    // const loggedInContactContactsList = loggedInContactContacts?.List;
-    // if (
-    //   !loggedInContactContactsList ||
-    //   loggedInContactContactsList?.length === 0
-    // ) {
-    //   return res.status(500).json({
-    //     internalError:
-    //       "Internal Error | Failed to retrieve logged-in contact's contact list.",
-    //   });
-    // }
-    // const newAdminContactData = {
-    //   _id: adminId,
-    //   Name: adminDoc?.Name,
-    //   Email: adminDoc?.Email,
-    //   PhoneNumber: adminDoc?.PhoneNumber,
-    //   About: adminDoc?.About,
-    //   ProfilePicture: adminDoc?.ProfilePicture,
-    //   Status: adminDoc?.Status,
-    //   ChatId: newChatDocument?._id,
-    // };
-    // loggedInContactContactsList.push(newAdminContactData);
-    // const updatedloggedInContactContactsDoc = await Contacts.updateOne(
-    //   { _id: loggedInContactId },
-    //   { $set: { List: loggedInContactContactsList } },
-    //   { upsert: true }
-    // );
-    // if (!updatedloggedInContactContactsDoc) {
-    //   return res.status(500).json({
-    //     internalError:
-    //       "Internal Error | Failed to update logged-in contact's contact list",
-    //   });
-    // }
     return res.status(201).json({
       message: "Server: Chat initialized successfully!",
       ChatId: newChatDocument?._id,
@@ -365,34 +315,37 @@ const fetchChats = asyncHandler(async (req, res) => {
 });
 
 const sendMessageController = asyncHandler(async (req, res) => {
-  const { chatId, ownerId, message } = req.body;
-
+  const { chatId, ownerId, message, targetUserId } = req.body;
   if (!ownerId) {
     return res.status(400).json({ error: "Owner Id is missing!" });
   }
-
   if (!message) {
     return res.status(400).json({ error: "Message is missing!" });
   }
-
   if (!chatId) {
     return res.status(400).json({ error: "Chat ID is missing!" });
   }
-
+  if (!targetUserId) {
+    return res.status(400).json({ error: "Target User Id is missing!" });
+  }
   try {
     const existingChat = await UserChats.findById(chatId);
-
     if (!existingChat) {
       return res.status(404).json({ error: "No such chat exists!" });
     }
-
+    if (existingChat?.Chats?.length === 0) {
+      try {
+        await initiateNewChatEngagement(targetUserId, ownerId, chatId);
+      } catch (error) {
+        console.log("error:", error);
+        return res.status(500).json({ internalError: error?.message });
+      }
+    }
     existingChat.Chats.push({
       Message: message,
       Owner: ownerId,
     });
-
     await existingChat.save();
-
     return res.status(200).json({ message: "Message sent to database." });
   } catch (error) {
     return res
