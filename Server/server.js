@@ -61,19 +61,39 @@ io.on("connection", (socket) => {
   socket.on("setup-socket-connection", (adminId) => {
     console.log(`Admin connected: ${adminId}`);
     socket.join(adminId);
+    console.log("Current rooms for socket:", Array.from(socket.rooms));
     socket.emit("connected-successfully");
   });
 
   socket.on("join-chat-room", (chatId, adminId) => {
-    console.log(`Admin ${adminId}, joined chat ${chatId}`);
+    console.log(`Admin ${adminId}, attempting to join chat ${chatId}`);
     socket.join(chatId);
+    const room = io.sockets.adapter.rooms.get(chatId);
+    console.log(`Room ${chatId} now has ${room ? room.size : 0} members`);
+    console.log("Current rooms for socket:", Array.from(socket.rooms));
+    socket.emit("joined-chat-room", chatId);
   });
 
   socket.on("is-new-message-sent", (chatId, senderId, receiverId) => {
     console.log(
-      `socket sent a message for chat: ${chatId} (${senderId} -> ${receiverId})`
+      `Attempting to send message in chat: ${chatId} (${senderId} -> ${receiverId})`
     );
-    io.to(chatId).emit("is-new-message-received", receiverId, senderId);
+    console.log("Socket is in these rooms:", Array.from(socket.rooms));
+
+    const room = io.sockets.adapter.rooms.get(chatId);
+    console.log("Room members:", room ? room.size : 0);
+
+    if (!room || room.size === 0) {
+      console.log(`Warning: Room ${chatId} is empty or doesn't exist`);
+      socket.join(chatId);
+    }
+
+    io.to(chatId).emit("is-new-message-received", senderId, receiverId);
+    console.log("Event emitted: is-new-message-received to room:", chatId);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`User disconnected: ${socket.id}`);
   });
 });
 

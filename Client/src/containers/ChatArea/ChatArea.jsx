@@ -50,20 +50,35 @@ const ChatArea = ({ partnerInfo }) => {
 
   useEffect(() => {
     if (!socket) return;
-    //below the recepientId will be same as the adminId.
-    socket.on("is-new-message-received", (senderId, recepientId) => {
-      console.log(`new message received from sender: ${senderId}`);
-      if (senderId === partnerInfo?.partnerId) fetchChats();
-      else
-        dispatch(
-          showNotification({
-            isVisible: true,
-            type: "info",
-            message: "New message received!",
-          })
-        );
-    });
+    socket.on("is-new-message-received", handleNewMessage);
+    return () => {
+      socket.off("is-new-message-received", handleNewMessage);
+    };
   });
+
+  const handleNewMessage = (senderId, recepientId) => {
+    if (recepientId === adminId) {
+      dispatch(
+        showNotification({
+          isVisible: true,
+          type: "info",
+          message: "New message received!",
+        })
+      );
+    }
+    fetchChats({ isInitializeConnection: false });
+    // if (senderId === partnerInfo?.partnerId) {
+    //   fetchChats({ isInitializeConnection: false });
+    // } else {
+    //   dispatch(
+    //     showNotification({
+    //       isVisible: true,
+    //       type: "info",
+    //       message: "New message received!",
+    //     })
+    //   );
+    // }
+  };
 
   const fetchChats = async ({ isInitializeConnection = true }) => {
     dispatch(setLoading(true));
@@ -77,7 +92,6 @@ const ChatArea = ({ partnerInfo }) => {
         setChatList(response.data.data.Chats);
         if (isInitializeConnection)
           socket.emit("join-chat-room", partnerInfo?.partnerChatId, adminId);
-        console.log("response:", response);
       })
       .catch((error) => {
         dispatch(
