@@ -166,17 +166,21 @@ const SignUpForm = ({ setIsFormDirty, formikRef }) => {
           adornmentImage: Loader,
         })
       );
-      dispatch(setAdminData({
-        id: localStorage.getItem('adminId'),
-        name: localStorage.getItem('name'),
-        email: localStorage.getItem('email'),
-        phoneNumber: localStorage.getItem('phoneNumber'),
-      }));
-      dispatch(setOtherDetails({
-        about: localStorage.getItem('about'),
-        profilePicture: localStorage.getItem('profilePicture'),
-        status: localStorage.getItem('status'),
-      }))
+      dispatch(
+        setAdminData({
+          adminId: localStorage.getItem("adminId"),
+          name: localStorage.getItem("name"),
+          email: localStorage.getItem("email"),
+          phoneNumber: localStorage.getItem("phoneNumber"),
+        })
+      );
+      dispatch(
+        setOtherDetails({
+          about: localStorage.getItem("about"),
+          profilePicture: localStorage.getItem("profilePicture"),
+          status: localStorage.getItem("status"),
+        })
+      );
     }
   }, []);
 
@@ -353,17 +357,21 @@ const SignInForm = ({ setIsFormDirty, formikRef }) => {
           adornmentImage: Loader,
         })
       );
-      dispatch(setAdminData({
-        id: localStorage.getItem('adminId'),
-        name: localStorage.getItem('name'),
-        email: localStorage.getItem('email'),
-        phoneNumber: localStorage.getItem('phoneNumber'),
-      }));
-      dispatch(setOtherDetails({
-        about: localStorage.getItem('about'),
-        profilePicture: localStorage.getItem('profilePicture'),
-        status: localStorage.getItem('status'),
-      }));
+      dispatch(
+        setAdminData({
+          id: localStorage.getItem("adminId"),
+          name: localStorage.getItem("name"),
+          email: localStorage.getItem("email"),
+          phoneNumber: localStorage.getItem("phoneNumber"),
+        })
+      );
+      dispatch(
+        setOtherDetails({
+          about: localStorage.getItem("about"),
+          profilePicture: localStorage.getItem("profilePicture"),
+          status: localStorage.getItem("status"),
+        })
+      );
     }
   }, []);
 
@@ -382,12 +390,15 @@ const SignInForm = ({ setIsFormDirty, formikRef }) => {
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem("authToken", response?.data?.authToken);
-          localStorage.setItem('adminId', response.data?._id);
-          localStorage.setItem('name', response?.data?.username);
-          localStorage.setItem('email', response?.data?.phoneNumber);
-          localStorage.setItem('about', response?.data?.about);
-          localStorage.setItem('profilePicture', response?.data?.profilePicture);
-          localStorage.setItem('status', response?.data?.status);
+          localStorage.setItem("adminId", response.data?._id);
+          localStorage.setItem("name", response?.data?.username);
+          localStorage.setItem("email", response?.data?.phoneNumber);
+          localStorage.setItem("about", response?.data?.about);
+          localStorage.setItem(
+            "profilePicture",
+            response?.data?.profilePicture
+          );
+          localStorage.setItem("status", response?.data?.status);
           dispatch(
             setAdminData({
               id: response?.data?._id,

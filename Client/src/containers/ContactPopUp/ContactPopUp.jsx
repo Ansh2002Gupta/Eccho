@@ -52,7 +52,7 @@ const ContactPopUp = ({ setPopUpElement, triggerRerender }) => {
             response?.message ?? "Contact list fetched successfully!",
             response
           );
-          setContactList(response?.data?.contacts);
+          setContactList(response?.data?.data?.contacts);
         } else {
           console.log("Failed to fetch contact list!");
         }
@@ -173,6 +173,9 @@ const ContactPopUp = ({ setPopUpElement, triggerRerender }) => {
             <img src={Loader} alt="loader" className={`${styles.loader}`} />
           ))}
         {!isLoading &&
+          Array.isArray(contactList) &&
+          contactList.length === 0 && <div>No contacts found so far.</div>}
+        {!isLoading &&
           contactList?.map((obj, index) => (
             <div key={index} className={`${styles.contactSlab}`}>
               <div className={`${styles.contactPersonDetails}`}>
@@ -191,9 +194,7 @@ const ContactPopUp = ({ setPopUpElement, triggerRerender }) => {
                   </h5>
                 </div>
               </div>
-              {!!obj?.ConnectInfo &&
-              Object.keys(obj?.ConnectInfo).length > 0 &&
-              !obj?.ConnectInfo?.[adminId] ? (
+              {!obj?.ChatId ? (
                 <motion.button
                   className={`${styles.actionButton}`}
                   whileHover={{ scale: 1.2, x: -10 }}

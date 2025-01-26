@@ -1,9 +1,9 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
-const UserContacts = require("../Schemas/UserContacts");
 const Contacts = require("../Schemas/Contacts");
 const Users = require("../Schemas/Users");
 const UserChats = require("../Schemas/UserChats");
+const { initiateNewChatEngagement } = require("../services/newChatEngagement");
 
 const newContactController = asyncHandler(async (req, res) => {
   const { adminId, name, email, phoneNumber } = req.body;
@@ -34,7 +34,9 @@ const newContactController = asyncHandler(async (req, res) => {
         error: "Server: Admin Id not found.",
       });
     }
-    const loggedInUser = await Users.find({ PhoneNumber: phoneNumber });
+    const loggedInUser = await Users.findOne({
+      PhoneNumber: phoneNumber,
+    });
     if (!loggedInUser) {
       //TODO: implement the logic of guest user.
     }
@@ -48,7 +50,7 @@ const newContactController = asyncHandler(async (req, res) => {
             Name: name,
             Email: email,
             PhoneNumber: phoneNumber,
-            chatId: null,
+            ChatId: null,
           },
         ],
       });
@@ -70,7 +72,7 @@ const newContactController = asyncHandler(async (req, res) => {
       }
       return res.status(201).json({
         message: "Server: Contact created successfully!",
-        contact: newContact,
+        data: { contact: newContact },
       });
     } else {
       const adminContactsDoc = await Contacts.findById(contactId);
@@ -92,7 +94,7 @@ const newContactController = asyncHandler(async (req, res) => {
         Name: name,
         Email: email,
         PhoneNumber: phoneNumber,
-        chatId: null,
+        ChatId: null,
       };
       contactList.push(newEntry);
       const updatedAdminContactsDoc = await Contacts.updateOne(
@@ -112,7 +114,7 @@ const newContactController = asyncHandler(async (req, res) => {
           Name: newEntry.Name,
           Email: newEntry.Email,
           PhoneNumber: newEntry.PhoneNumber,
-          chatId: null,
+          ChatId: null,
         });
       }
     }
@@ -139,6 +141,7 @@ const getContactList = asyncHandler(async (req, res) => {
     if (!contactId) {
       return res.status(200).json({
         message: "Server: No contacts found for this admin.",
+        data: { contacts: [] },
       });
     }
     const adminContactsDoc = await Contacts.findById(contactId);
@@ -155,7 +158,7 @@ const getContactList = asyncHandler(async (req, res) => {
     }
     return res.status(200).json({
       message: "Server: Contact list fetched successfully!",
-      contacts: contactList,
+      data: { contacts: contactList },
     });
   } catch (error) {
     return res.status(500).json({
@@ -182,7 +185,7 @@ const startChatController = asyncHandler(async (req, res) => {
         internalError: "Internal Error | Failed to initialize a new chat.",
       });
     }
-    const adminDoc = await Users.find(adminId);
+    const adminDoc = await Users.findById(adminId);
     if (!adminDoc) {
       return res.status(404).json({
         error: "Server: Admin ID does not exists",
@@ -210,8 +213,8 @@ const startChatController = asyncHandler(async (req, res) => {
       });
     }
     const updatedList = contactList?.map((contact) => {
-      if (contact?._id === contactId) {
-        return { ...contact, chatId: newChatDocument?._id };
+      if (contact?._id.toString() === contactId.toString()) {
+        return { ...contact?._doc, ChatId: newChatDocument?._id };
       }
       return contact;
     });
@@ -225,59 +228,9 @@ const startChatController = asyncHandler(async (req, res) => {
         internalError: "Internal Error | Failed to update contact's chat id",
       });
     }
-    const loggedInContactDoc = await Users.findById(contactId);
-    if (!loggedInContactDoc) {
-      //TODO: implement guest user flow.
-    }
-    const loggedInContactId = loggedInContactDoc?.Contacts;
-    if (!loggedInContactId) {
-      return res.status(500).json({
-        internalError:
-          "Internal Error | Failed to retrieve logged-in contact information",
-      });
-    }
-    const loggedInContactContacts = await Contacts.findById(loggedInContactId);
-    if (!loggedInContactContacts) {
-      return res.status(500).json({
-        internalError:
-          "Internal Error | Failed to retrieve logged-in contact's contact list.",
-      });
-    }
-    const loggedInContactContactsList = loggedInContactContacts?.List;
-    if (
-      !loggedInContactContactsList ||
-      loggedInContactContactsList?.length === 0
-    ) {
-      return res.status(500).json({
-        internalError:
-          "Internal Error | Failed to retrieve logged-in contact's contact list.",
-      });
-    }
-    const newAdminContactData = {
-      _id: adminId,
-      Name: adminDoc?.Name,
-      Email: adminDoc?.Email,
-      PhoneNumber: adminDoc?.PhoneNumber,
-      About: adminDoc?.About,
-      ProfilePicture: adminDoc?.ProfilePicture,
-      Status: adminDoc?.Status,
-      chatId: newChatDocument?._id,
-    };
-    loggedInContactContactsList.push(newAdminContactData);
-    const updatedloggedInContactContactsDoc = await Contacts.updateOne(
-      { _id: loggedInContactId },
-      { $set: { List: loggedInContactContactsList } },
-      { upsert: true }
-    );
-    if (!updatedloggedInContactContactsDoc) {
-      return res.status(500).json({
-        internalError:
-          "Internal Error | Failed to update logged-in contact's contact list",
-      });
-    }
-    return res.status(200).json({
+    return res.status(201).json({
       message: "Server: Chat initialized successfully!",
-      chatId: newChatDocument?._id,
+      ChatId: newChatDocument?._id,
     });
   } catch (error) {
     return res
@@ -292,7 +245,7 @@ const fetchChatList = asyncHandler(async (req, res) => {
     return res.status(400).json({ error: "Server: User ID is missing!" });
   }
   try {
-    const adminDoc = await Users.find(adminId);
+    const adminDoc = await Users.findById(adminId);
     if (!adminDoc) {
       return res.status(404).json({
         error: "Server: Admin ID does not exists",
@@ -302,6 +255,7 @@ const fetchChatList = asyncHandler(async (req, res) => {
     if (!adminContactsId) {
       return res.status(200).json({
         message: "Server: No contacts found",
+        data: { engagedContacts: [] },
       });
     }
     const contactDoc = await Contacts.findById(adminContactsId);
@@ -315,17 +269,19 @@ const fetchChatList = asyncHandler(async (req, res) => {
     if (!contactList || !contactList.length) {
       return res.status(200).json({
         message: "Server: No contacts found",
+        data: { engagedContacts: [] },
       });
     }
     const engagedContacts = contactList.filter((contact) => contact?.ChatId);
     if (!engagedContacts) {
       return res.status(200).json({
         message: "Server: No engaged contacts found",
+        data: { engagedContacts: [] },
       });
     }
     return res.status(200).json({
       message: "Successfully fetched chat list!",
-      engagedContacts: refactoredContacts,
+      data: { engagedContacts },
     });
   } catch (error) {
     return res.status(500).json({
@@ -359,34 +315,37 @@ const fetchChats = asyncHandler(async (req, res) => {
 });
 
 const sendMessageController = asyncHandler(async (req, res) => {
-  const { chatId, ownerId, message } = req.body;
-
+  const { chatId, ownerId, message, targetUserId } = req.body;
   if (!ownerId) {
     return res.status(400).json({ error: "Owner Id is missing!" });
   }
-
   if (!message) {
     return res.status(400).json({ error: "Message is missing!" });
   }
-
   if (!chatId) {
     return res.status(400).json({ error: "Chat ID is missing!" });
   }
-
+  if (!targetUserId) {
+    return res.status(400).json({ error: "Target User Id is missing!" });
+  }
   try {
     const existingChat = await UserChats.findById(chatId);
-
     if (!existingChat) {
       return res.status(404).json({ error: "No such chat exists!" });
     }
-
+    if (existingChat?.Chats?.length === 0) {
+      try {
+        await initiateNewChatEngagement(targetUserId, ownerId, chatId);
+      } catch (error) {
+        console.log("error:", error);
+        return res.status(500).json({ internalError: error?.message });
+      }
+    }
     existingChat.Chats.push({
       Message: message,
       Owner: ownerId,
     });
-
     await existingChat.save();
-
     return res.status(200).json({ message: "Message sent to database." });
   } catch (error) {
     return res
