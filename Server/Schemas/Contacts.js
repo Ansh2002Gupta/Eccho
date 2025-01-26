@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 const { AVAILABILITY_STATUS } = require("../core/ServerConstants");
 
+mongoose.set("debug", true);
+
+//TODO: add a unique check for email and phone number
 const CONTACTS = new Schema({
   List: [
     {
@@ -13,7 +16,7 @@ const CONTACTS = new Schema({
         type: String,
         default: "https://picsum.photos/id/103/1920/1080",
       },
-      ChatId: { type: Schema.Types.ObjectId, ref: "UserChats" },
+      ChatId: { type: Schema.Types.ObjectId, ref: "UserChats", default: null },
       Status: { type: String, default: AVAILABILITY_STATUS.OFFLINE },
       CreatedAt: { type: Date, default: Date.now() },
     },

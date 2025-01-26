@@ -1,139 +1,284 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const UserContacts = require("../Schemas/UserContacts");
+const Contacts = require("../Schemas/Contacts");
+const Users = require("../Schemas/Users");
 const UserChats = require("../Schemas/UserChats");
 
 const newContactController = asyncHandler(async (req, res) => {
-  const { adminId, name, email = undefined, phoneNumber } = req.body;
-
+  const { adminId, name, email, phoneNumber } = req.body;
   if (!adminId) {
     return res
       .status(422)
       .json({ error: "Server: I think you forgot to enter adminId" });
   }
-
+  if (!email) {
+    return res
+      .status(422)
+      .json({ error: "Server: I think you forgot to enter email" });
+  }
   if (!name) {
     return res
       .status(422)
       .json({ error: "Server: I think you forgot to enter contact name." });
   }
-
   if (!phoneNumber) {
     return res.status(422).json({
       error: "Server: I think you forgot to enter contact phone number.",
     });
   }
-
-  const existingContact = await UserContacts.findOne({
-    PhoneNumber: phoneNumber,
-  });
-
-  if (existingContact) {
-    if (Object.keys(existingContact.ConnectInfo).includes(adminId))
-      return res
-        .status(409)
-        .json({ error: "Server: This contact already exists for this user!" });
-
-    const updatedContact = await UserContacts.updateOne(
-      { PhoneNumber: phoneNumber },
-      { $set: { [`ConnectInfo.${adminId}`]: null } },
-      { upsert: true }
-    );
-    if (updatedContact) {
-      return res.status(200).json({
-        message: "Server: Updated existing contact's connection info!",
-        _id: existingContact._id,
-        name: existingContact.Name,
-        email: existingContact.Email,
-        phoneNumber: existingContact.PhoneNumber,
-        connectInfo: existingContact.ConnectInfo,
-      });
-    } else {
-      return res.status(500).json({
-        internalError: "Internal Error | Failed to update existing contact.",
+  try {
+    const adminDBData = await Users.findById(adminId);
+    if (!adminDBData) {
+      return res.status(404).json({
+        error: "Server: Admin Id not found.",
       });
     }
-  }
-
-  const newContact = await UserContacts.create({
-    Name: name,
-    Email: email,
-    PhoneNumber: phoneNumber,
-    ConnectInfo: { [adminId]: null },
-  });
-
-  if (newContact) {
-    return res.status(201).json({
-      message: "Server: Contact saved successfully!",
-      _id: newContact._id,
-      name: newContact.Name,
-      email: newContact.Email,
-      phoneNumber: newContact.PhoneNumber,
-      connectInfo: newContact.ConnectInfo,
-    });
-  } else {
+    const loggedInUser = await Users.find({ PhoneNumber: phoneNumber });
+    if (!loggedInUser) {
+      //TODO: implement the logic of guest user.
+    }
+    const loggedInUserId = loggedInUser._id;
+    const contactId = adminDBData?.Contacts;
+    if (!contactId) {
+      const newContact = await Contacts.create({
+        List: [
+          {
+            _id: loggedInUserId,
+            Name: name,
+            Email: email,
+            PhoneNumber: phoneNumber,
+            chatId: null,
+          },
+        ],
+      });
+      if (!newContact) {
+        return res.status(500).json({
+          internalError: "Internal Error | Failed to create new contact.",
+        });
+      }
+      const updatedAdminDoc = await Users.findByIdAndUpdate(
+        adminId,
+        { $set: { Contacts: newContact?._id } },
+        { new: true }
+      );
+      if (!updatedAdminDoc) {
+        return res.status(500).json({
+          internalError:
+            "Internal Error | Failed to update admin's contact list.",
+        });
+      }
+      return res.status(201).json({
+        message: "Server: Contact created successfully!",
+        contact: newContact,
+      });
+    } else {
+      const adminContactsDoc = await Contacts.findById(contactId);
+      if (!adminContactsDoc) {
+        return res.status(404).json({
+          error: "Server: Contact Id does not exist.",
+        });
+      }
+      const contactList = adminContactsDoc?.List;
+      const existingContact = contactList?.find(
+        (contact) => contact.PhoneNumber === phoneNumber
+      );
+      if (existingContact) {
+        return res
+          .status(409)
+          .json({ message: "Server: This contact already exists!" });
+      }
+      const newEntry = {
+        Name: name,
+        Email: email,
+        PhoneNumber: phoneNumber,
+        chatId: null,
+      };
+      contactList.push(newEntry);
+      const updatedAdminContactsDoc = await Contacts.updateOne(
+        { _id: contactId },
+        { $set: { List: contactList } },
+        { upsert: true }
+      );
+      if (!updatedAdminContactsDoc) {
+        return res.status(500).json({
+          internalError:
+            "Internal Error | Failed to update admin's contact list.",
+        });
+      } else {
+        return res.status(201).json({
+          message: "Server: New contact added successfully!",
+          _id: newEntry._id,
+          Name: newEntry.Name,
+          Email: newEntry.Email,
+          PhoneNumber: newEntry.PhoneNumber,
+          chatId: null,
+        });
+      }
+    }
+  } catch (error) {
     return res.status(500).json({
-      internalError: "Internal Error | Sorry! failed to add this contact.",
+      internalError: "Internal Error | Failed to create new contact.",
     });
   }
 });
 
 const getContactList = asyncHandler(async (req, res) => {
   const { adminId } = req.params;
-  console.log("adminId:", adminId);
+  if (!adminId) {
+    return res.status(400).json({ error: "Server: Admin ID is required!" });
+  }
   try {
-    const contacts = await UserContacts.find({
-      [`ConnectInfo.${adminId}`]: { $exists: true },
-    });
-    console.log("here");
+    const adminDBData = await Users.findById(adminId);
+    if (!adminDBData) {
+      return res.status(404).json({
+        error: "Server: Admin Id not found.",
+      });
+    }
+    const contactId = adminDBData?.Contacts;
+    if (!contactId) {
+      return res.status(200).json({
+        message: "Server: No contacts found for this admin.",
+      });
+    }
+    const adminContactsDoc = await Contacts.findById(contactId);
+    if (!adminContactsDoc) {
+      return res.status(404).json({
+        error: "Server: Contact Id does not exist.",
+      });
+    }
+    const contactList = adminContactsDoc?.List;
+    if (!contactList || contactList?.length === 0) {
+      return res.status(404).json({
+        error: "Server: No contacts found in the contact list.",
+      });
+    }
     return res.status(200).json({
-      message: "Successfully fetched contact list!",
-      contacts: contacts,
+      message: "Server: Contact list fetched successfully!",
+      contacts: contactList,
     });
   } catch (error) {
-    console.log("error here");
     return res.status(500).json({
       internalError: "Internal Error | Failed to fetch contact list.",
     });
   }
 });
 
-//TODO: if the contact has already engaged with the current admin, then connectInfo[adminId] will not be null, so we should not create a new chat, instead we should return the existing chat id. If the contact has not engaged with the current admin, then we should create a new chat.
+//TODO: if the contact has already engaged with the current admin, then adminId.Contacts will not be null, so we should not create a new chat, instead we should return the existing chat id. If the contact has not engaged with the current admin, then we should create a new chat.
 const startChatController = asyncHandler(async (req, res) => {
   const { contactId, adminId } = req.body;
-
   if (!contactId) {
     return res.status(400).json({ error: "Server: Contact ID is missing!" });
   }
-
   if (!adminId) {
     return res.status(400).json({ error: "Server: Admin ID is missing!" });
   }
-
   try {
     const newChatDocument = await UserChats.create({
       Chats: [],
     });
-
     if (!newChatDocument) {
-      return res
-        .status(500)
-        .json({ internalError: "Internal Error | Failed to start new chat." });
+      return res.status(500).json({
+        internalError: "Internal Error | Failed to initialize a new chat.",
+      });
     }
-
-    const updatedContact = await UserContacts.findByIdAndUpdate(
-      contactId,
-      { $set: { [`ConnectInfo.${adminId}`]: newChatDocument?._id } },
-      { new: true }
+    const adminDoc = await Users.find(adminId);
+    if (!adminDoc) {
+      return res.status(404).json({
+        error: "Server: Admin ID does not exists",
+      });
+    }
+    const adminContactsId = adminDoc?.Contacts;
+    if (!adminContactsId) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve contact information",
+      });
+    }
+    const contactDoc = await Contacts.findById(adminContactsId);
+    if (!contactDoc) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve contact information",
+      });
+    }
+    const contactList = contactDoc?.List;
+    if (!contactList || contactList.length === 0) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve contact information",
+      });
+    }
+    const updatedList = contactList?.map((contact) => {
+      if (contact?._id === contactId) {
+        return { ...contact, chatId: newChatDocument?._id };
+      }
+      return contact;
+    });
+    const updatedContactDoc = await Contacts.updateOne(
+      { _id: adminContactsId },
+      { $set: { List: updatedList } },
+      { upsert: true }
     );
-
-    if (!updatedContact) {
-      return res.status(404).json({ error: "Server: Contact not found!" });
+    if (!updatedContactDoc) {
+      return res.status(500).json({
+        internalError: "Internal Error | Failed to update contact's chat id",
+      });
     }
-
-    return res
-      .status(201)
-      .json({ message: "Successfully started new chat!", chatId: contactId });
+    const loggedInContactDoc = await Users.findById(contactId);
+    if (!loggedInContactDoc) {
+      //TODO: implement guest user flow.
+    }
+    const loggedInContactId = loggedInContactDoc?.Contacts;
+    if (!loggedInContactId) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve logged-in contact information",
+      });
+    }
+    const loggedInContactContacts = await Contacts.findById(loggedInContactId);
+    if (!loggedInContactContacts) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve logged-in contact's contact list.",
+      });
+    }
+    const loggedInContactContactsList = loggedInContactContacts?.List;
+    if (
+      !loggedInContactContactsList ||
+      loggedInContactContactsList?.length === 0
+    ) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve logged-in contact's contact list.",
+      });
+    }
+    const newAdminContactData = {
+      _id: adminId,
+      Name: adminDoc?.Name,
+      Email: adminDoc?.Email,
+      PhoneNumber: adminDoc?.PhoneNumber,
+      About: adminDoc?.About,
+      ProfilePicture: adminDoc?.ProfilePicture,
+      Status: adminDoc?.Status,
+      chatId: newChatDocument?._id,
+    };
+    loggedInContactContactsList.push(newAdminContactData);
+    const updatedloggedInContactContactsDoc = await Contacts.updateOne(
+      { _id: loggedInContactId },
+      { $set: { List: loggedInContactContactsList } },
+      { upsert: true }
+    );
+    if (!updatedloggedInContactContactsDoc) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to update logged-in contact's contact list",
+      });
+    }
+    return res.status(200).json({
+      message: "Server: Chat initialized successfully!",
+      chatId: newChatDocument?._id,
+    });
   } catch (error) {
     return res
       .status(500)
@@ -143,30 +288,41 @@ const startChatController = asyncHandler(async (req, res) => {
 
 const fetchChatList = asyncHandler(async (req, res) => {
   const { adminId } = req.params;
-
   if (!adminId) {
     return res.status(400).json({ error: "Server: User ID is missing!" });
   }
-
   try {
-    const engagedContacts = await UserContacts.find({
-      [`ConnectInfo.${adminId}`]: { $exists: true, $ne: null },
-    });
-    //TODO: if no engaged contacts are found, then we should not through any api error, instead it should be handled on the frontend. If the api fails, due to a certain network issue or any other issue, then it should through an error.
-    if (!engagedContacts) {
-      return res
-        .status(404)
-        .json({ error: "Server: No engaged contacts found!" });
+    const adminDoc = await Users.find(adminId);
+    if (!adminDoc) {
+      return res.status(404).json({
+        error: "Server: Admin ID does not exists",
+      });
     }
-    const refactoredContacts = engagedContacts.map((document) => {
-      const doc = document._doc;
-      const chatId = doc.ConnectInfo[adminId];
-      const { ConnectInfo, ...otherFields } = doc;
-      return {
-        ...otherFields,
-        ChatId: chatId,
-      };
-    });
+    const adminContactsId = adminDoc?.Contacts;
+    if (!adminContactsId) {
+      return res.status(200).json({
+        message: "Server: No contacts found",
+      });
+    }
+    const contactDoc = await Contacts.findById(adminContactsId);
+    if (!contactDoc) {
+      return res.status(500).json({
+        internalError:
+          "Internal Error | Failed to retrieve contact information",
+      });
+    }
+    const contactList = contactDoc?.List;
+    if (!contactList || !contactList.length) {
+      return res.status(200).json({
+        message: "Server: No contacts found",
+      });
+    }
+    const engagedContacts = contactList.filter((contact) => contact?.ChatId);
+    if (!engagedContacts) {
+      return res.status(200).json({
+        message: "Server: No engaged contacts found",
+      });
+    }
     return res.status(200).json({
       message: "Successfully fetched chat list!",
       engagedContacts: refactoredContacts,
