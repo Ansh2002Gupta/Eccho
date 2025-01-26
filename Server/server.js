@@ -88,7 +88,7 @@ io.on("connection", (socket) => {
       socket.join(chatId);
     }
 
-    io.to(chatId).emit("is-new-message-received", senderId, receiverId);
+    io.to(chatId).emit("is-new-message-received", senderId, receiverId, chatId);
     console.log("Event emitted: is-new-message-received to room:", chatId);
   });
 

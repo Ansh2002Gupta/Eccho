@@ -4,6 +4,9 @@ const Contacts = require("../Schemas/Contacts");
 const Users = require("../Schemas/Users");
 const UserChats = require("../Schemas/UserChats");
 const { initiateNewChatEngagement } = require("../services/newChatEngagement");
+const {
+  updateUnreadMessages,
+} = require("../services/updateUnreadMessageConfig");
 
 const newContactController = asyncHandler(async (req, res) => {
   const { adminId, name, email, phoneNumber } = req.body;
@@ -346,6 +349,7 @@ const sendMessageController = asyncHandler(async (req, res) => {
       Owner: ownerId,
     });
     await existingChat.save();
+    await updateUnreadMessages(targetUserId);
     return res.status(200).json({ message: "Message sent to database." });
   } catch (error) {
     return res

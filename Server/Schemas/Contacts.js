@@ -17,6 +17,15 @@ const CONTACTS = new Schema({
         default: "https://picsum.photos/id/103/1920/1080",
       },
       ChatId: { type: Schema.Types.ObjectId, ref: "UserChats", default: null },
+      UnreadMessageDetails: [
+        {
+          Message: {
+            type: String,
+            default: "This was the last un-read message.",
+          },
+          CreatedAt: { type: Date, default: Date.now },
+        },
+      ],
       Status: { type: String, default: AVAILABILITY_STATUS.OFFLINE },
       CreatedAt: { type: Date, default: Date.now() },
     },
