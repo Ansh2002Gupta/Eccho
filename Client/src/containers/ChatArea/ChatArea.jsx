@@ -56,7 +56,7 @@ const ChatArea = ({ partnerInfo }) => {
     };
   });
 
-  const handleNewMessage = (senderId, recepientId) => {
+  const handleNewMessage = (senderId, recepientId, intendedChatId) => {
     if (recepientId === adminId) {
       dispatch(
         showNotification({
@@ -66,19 +66,12 @@ const ChatArea = ({ partnerInfo }) => {
         })
       );
     }
-    fetchChats({ isInitializeConnection: false });
-    // if (senderId === partnerInfo?.partnerId) {
-    //   fetchChats({ isInitializeConnection: false });
-    // } else {
-    //   dispatch(
-    //     showNotification({
-    //       isVisible: true,
-    //       type: "info",
-    //       message: "New message received!",
-    //     })
-    //   );
-    // }
+    if (partnerInfo?.partnerChatId === intendedChatId) {
+      fetchChats({ isInitializeConnection: false });
+    } else updateChatMenu();
   };
+
+  const updateChatMenu = () => {};
 
   const fetchChats = async ({ isInitializeConnection = true }) => {
     dispatch(setLoading(true));
