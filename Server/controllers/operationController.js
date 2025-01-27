@@ -349,7 +349,7 @@ const sendMessageController = asyncHandler(async (req, res) => {
       Owner: ownerId,
     });
     await existingChat.save();
-    await updateUnreadMessages(targetUserId);
+    await updateUnreadMessages(message, ownerId, targetUserId);
     return res.status(200).json({ message: "Message sent to database." });
   } catch (error) {
     return res
