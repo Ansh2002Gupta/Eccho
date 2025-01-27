@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./ChatSlab.module.scss";
-import { formatMessageTime } from "../../utility/formateMessageTime";
+import { formatMessageTime } from "../../utility/dateTimeService";
 
 const ChatSlab = ({ contactPersonInfo, isActive, onClick }) => {
   const {
@@ -11,7 +11,10 @@ const ChatSlab = ({ contactPersonInfo, isActive, onClick }) => {
     UnreadMessageDetails,
   } = contactPersonInfo;
   const { Message: latestMessage, CreatedAt: latestMessageTime } =
-    UnreadMessageDetails?.[(UnreadMessageDetails?.length || 1) - 1];
+    UnreadMessageDetails?.[(UnreadMessageDetails?.length || 1) - 1] ?? {
+      Message: "",
+      CreatedAt: "",
+    };
   const unreadMessageCount = UnreadMessageDetails?.length || 0;
 
   return (
@@ -42,7 +45,7 @@ const ChatSlab = ({ contactPersonInfo, isActive, onClick }) => {
                 : styles.lastMessageTime_inactive
             }`}
           >
-            {formatMessageTime(latestMessageTime)}
+            {!latestMessageTime ? "" : formatMessageTime(latestMessageTime)}
           </span>
         </div>
         <div className={`${styles.lastestMessageAndUnReadMsgCountContainer}`}>

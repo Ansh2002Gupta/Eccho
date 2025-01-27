@@ -17,3 +17,12 @@ export const formatMessageTime = (timestamp) => {
     return `${day}/${month}/${year}`;
   }
 };
+
+export const formatTime = (timeStamp) => {
+  const dateInstance = new Date(timeStamp);
+  return dateInstance.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+};

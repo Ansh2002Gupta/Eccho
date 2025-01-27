@@ -94,6 +94,10 @@
   width: 25px;
   height: 25px;
   border-radius: 100%;
+
+  &.profilePhotoContainer_messaging_area_hidden {
+    visibility: hidden;
+  }
 }
 
 .extraServicesIcon {
@@ -123,19 +127,23 @@
 }
 
 .messagingArea {
-  position: relative;
   width: 100%;
-  height: 60vh;
   display: flex;
   flex-direction: column;
   gap: var(--g20);
+  justify-content: center;
+}
+
+.messagingAreaWrapper {
+  width: 100%;
+  height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   border-top: 1px solid var(--slateGrey);
   border-bottom: 1px solid var(--slateGrey);
   margin-left: var(--m40);
   margin-right: var(--m40);
-  overflow: scroll;
   padding-bottom: var(--p20);
-  justify-content: center;
 }
 
 .messageBox {
@@ -151,11 +159,11 @@
   margin-left: var(--m40);
   margin-right: var(--m20);
   border: 2px solid var(--light);
-  width: 72%;
+  width: 100%;
 }
 
 .sendButton {
-  width: 50px;
+  min-width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -195,30 +203,20 @@
 }
 
 .dateIdentifier {
+  border: var(--whiteSmokeBorder);
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
   width: 100%;
   position: sticky;
-  top: -10px;
-}
-
-.dateWrapper {
-  background-color: var(--white);
-  width: 100%;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  filter: blur(5px);
+  top: 20px;
+  z-index: -1;
 }
 
 .dateStyling {
   position: absolute;
   background-color: var(--extraPrimary);
   border-radius: 25px;
-  box-shadow: var(--defShadow);
   padding-top: var(--p5);
   padding-bottom: var(--p5);
   padding-left: var(--p10);

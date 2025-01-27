@@ -17,7 +17,7 @@ import { setLoading } from "../../redux/reducers/apiReducer";
 import { appConstants } from "../../config/app_constants";
 import { showNotification } from "../../redux/reducers/notificationReducer";
 import axios from "axios";
-import { formatDate } from "../../utility/formatDate";
+import { formatTime } from "../../utility/dateTimeService";
 
 const ChatArea = ({ partnerInfo }) => {
   const isLoading = useSelector((state) => state.apiContext.isLoading);
@@ -136,6 +136,83 @@ const ChatArea = ({ partnerInfo }) => {
       .finally(() => dispatch(setLoading(false)));
   };
 
+  const renderDateSlab = (message, index, chatList) => {
+    const dateOfCurrentMessage = new Date(message?.CreatedAt);
+    const dateOfPreviousMessage = new Date(chatList[index - 1]?.CreatedAt);
+
+    if (
+      dateOfCurrentMessage.toDateString() ===
+      dateOfPreviousMessage.toDateString()
+    )
+      return <></>;
+
+    const today = new Date();
+    const yesterday = new Date();
+    let resultantDateString = "";
+    if (dateOfCurrentMessage.toDateString() === today.toDateString()) {
+      resultantDateString = "Today";
+    } else if (
+      dateOfCurrentMessage.toDateString() === yesterday.toDateString()
+    ) {
+      resultantDateString = "Yesterday";
+    } else {
+      resultantDateString = dateOfCurrentMessage.toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+    }
+    return (
+      <div className={`${styles.dateIdentifier}`}>
+        <span className={`${styles.dateStyling}`}>
+          {resultantDateString ?? "<!!Error in date formatting!!>"}
+        </span>
+      </div>
+    );
+  };
+
+  const renderChats = () => {
+    if (!chatList || chatList.length === 0) return <></>;
+
+    return chatList?.map((msg, index) => (
+      <>
+        {renderDateSlab(msg, index, chatList)}
+        <div
+          key={index}
+          className={`${
+            msg?.Owner === adminId
+              ? styles.inRow_messages_outgoing
+              : styles.inRow_messages_incoming
+          }`}
+        >
+          <img
+            src={
+              msg?.Owner === adminId
+                ? profilePicture
+                : partnerInfo?.partnerProfilePicture
+            }
+            alt="profile photo"
+            className={`${styles.profilePhotoContainer_messaging_area} ${
+              index > 0 &&
+              msg?.Owner === chatList[index - 1]?.Owner &&
+              styles.profilePhotoContainer_messaging_area_hidden
+            }`}
+          />
+          <div
+            className={`${styles.messageContainer} ${
+              msg?.Owner === adminId
+                ? styles.extraStyling_messageContainer_incoming
+                : null
+            }`}
+          >
+            <p className={`${styles.message}`}>{msg?.Message}</p>
+          </div>
+          <div className={`${styles.time}`}>{formatTime(msg?.CreatedAt)}</div>
+        </div>
+      </>
+    ));
+  };
+
   return (
     <div className={`${styles.parentContainer}`}>
       <div className={`${styles.userContainerWrapper}`}>
@@ -181,59 +258,20 @@ const ChatArea = ({ partnerInfo }) => {
           </EcchoToolTip>
         </div>
       </div>
-      <div className={`${styles.messagingArea}`}>
-        {isLoading && (
-          <>
-            <div className={`${styles.overlay}`}></div>
-            <img
-              src={loader}
-              alt="Loading..."
-              className={`${styles.loaderImage}`}
-            />
-          </>
-        )}
-        {!isLoading && (
-          <>
-            <div className={`${styles.dateIdentifier}`}>
-              <div className={`${styles.dateWrapper}`}></div>
-              <span className={`${styles.dateStyling}`}>23rd July 2024</span>
-            </div>
-
-            {!!chatList &&
-              chatList?.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`${
-                    msg?.Owner === adminId
-                      ? styles.inRow_messages_outgoing
-                      : styles.inRow_messages_incoming
-                  }`}
-                >
-                  <img
-                    src={
-                      msg?.Owner === adminId
-                        ? profilePicture
-                        : partnerInfo?.partnerProfilePicture
-                    }
-                    alt="profile photo"
-                    className={`${styles.profilePhotoContainer_messaging_area}`}
-                  />
-                  <div
-                    className={`${styles.messageContainer} ${
-                      msg?.Owner === adminId
-                        ? styles.extraStyling_messageContainer_incoming
-                        : null
-                    }`}
-                  >
-                    <p className={`${styles.message}`}>{msg?.Message}</p>
-                  </div>
-                  <div className={`${styles.time}`}>
-                    {formatDate(msg?.CreatedAt)}
-                  </div>
-                </div>
-              ))}
-          </>
-        )}
+      <div className={`${styles.messagingAreaWrapper}`}>
+        <div className={`${styles.messagingArea}`}>
+          {isLoading && (
+            <>
+              <div className={`${styles.overlay}`}></div>
+              <img
+                src={loader}
+                alt="Loading..."
+                className={`${styles.loaderImage}`}
+              />
+            </>
+          )}
+          {!isLoading && renderChats()}
+        </div>
       </div>
       <div className={`${styles.inputArea}`}>
         <div className={`${styles.inRow}`}>
