@@ -1,0 +1,159 @@
+.outerWrapper {
+  position: relative;
+  width: var(--wfull);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle,
+    rgba(167, 168, 212, 1) 0%,
+    rgba(190, 192, 255, 1) 35%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  overflow: hidden;
+}
+
+.diagonalOverlaySheet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  content: "";
+  position: absolute;
+  bottom: 300px;
+  right: 400px;
+  width: 2000px;
+  height: 2000px;
+  background-color: var(--light);
+  box-shadow: var(--defShadow);
+  border-radius: var(--rhalf);
+  z-index: 0;
+}
+
+.subCircle1 {
+  content: "";
+  position: absolute;
+  width: 1800px;
+  height: 1800px;
+  background-color: whitesmoke;
+  box-shadow: var(--defShadow);
+  border-radius: var(--rhalf);
+  z-index: 0;
+}
+
+.subCircle2 {
+  content: "";
+  position: absolute;
+  width: 1700px;
+  height: 1700px;
+  background-color: var(--light);
+  box-shadow: var(--defShadow);
+  border-radius: var(--rhalf);
+  z-index: 0;
+}
+
+.subCircle3 {
+  content: "";
+  position: absolute;
+  width: 1600px;
+  height: 1600px;
+  background-color: var(--extraPrimary);
+  box-shadow: var(--defShadow);
+  border-radius: var(--rhalf);
+  z-index: 0;
+}
+
+.subCircle4 {
+  content: "";
+  position: absolute;
+  width: 1500px;
+  height: 1500px;
+  background-color: whitesmoke;
+  box-shadow: var(--defShadow);
+  border-radius: var(--rhalf);
+  z-index: 0;
+}
+
+.subCircle5 {
+  content: "";
+  position: absolute;
+  width: 1400px;
+  height: 1400px;
+  background-color: var(--primary);
+  box-shadow: var(--defShadow);
+  border-radius: var(--rhalf);
+  z-index: 0;
+}
+
+.subCircle6 {
+  content: "";
+  position: absolute;
+  width: 1300px;
+  height: 1300px;
+  background-color: var(--secondary);
+  box-shadow: var(--defShadow);
+  border-radius: var(--rhalf);
+  z-index: 0;
+}
+
+.imageOverlay {
+  height: var(--hfull);
+  background-image: url("../../../public/images/noChatSelected.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-blend-mode: lighten;
+  opacity: 0.65;
+}
+
+.contentContainer {
+  position: absolute;
+  width: var(--wfull);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading1 {
+  font-size: var(--fs100);
+  font-weight: var(--fw700);
+  margin: var(--w20) 0;
+  text-shadow: var(--primaryTextShadow);
+  color: var(--secondary);
+  -webkit-text-fill-color: var(--extraSecondary);
+  -webkit-text-stroke: 2px;
+}
+
+.heading2 {
+  font-size: var(--fs50);
+  font-weight: var(--fw600);
+  font-style: italic;
+  margin: var(--w10) 0;
+  text-shadow: var(--primaryTextShadow);
+  color: var(--secondary);
+  -webkit-text-fill-color: var(--extraSecondary);
+  -webkit-text-stroke: 1px;
+}
+
+.subheading1 {
+  font-size: var(--fs30);
+  font-weight: var(--fw500);
+  margin: var(--w10) 0;
+  text-shadow: var(--primaryTextShadow);
+  color: var(--secondary);
+  -webkit-text-fill-color: var(--extraSecondary);
+  -webkit-text-stroke: 1px;
+}
+
+.defaultImage {
+  width: var(--w100);
+  height: var(--w100);
+  border-radius: 50%;
+  margin: var(--w20) 0;
+}
+
+.highlightText {
+  color: var(--primary);
+  -webkit-text-fill-color: var(--primary);
+}

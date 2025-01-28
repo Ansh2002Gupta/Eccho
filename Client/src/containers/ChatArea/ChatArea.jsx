@@ -18,6 +18,7 @@ import { appConstants } from "../../config/app_constants";
 import { showNotification } from "../../redux/reducers/notificationReducer";
 import axios from "axios";
 import { formatTime } from "../../utility/dateTimeService";
+import DefaultChat from "../../components/DefaultChat";
 
 const ChatArea = ({ partnerInfo }) => {
   const isLoading = useSelector((state) => state.apiContext.isLoading);
@@ -212,6 +213,10 @@ const ChatArea = ({ partnerInfo }) => {
       </>
     ));
   };
+
+  if (!partnerInfo) {
+    return <DefaultChat />;
+  }
 
   return (
     <div className={`${styles.parentContainer}`}>

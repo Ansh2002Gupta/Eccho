@@ -1,12 +1,11 @@
 :root {
   //application colors / main colors
-  --white: #FCFCFD;
-  --primary: #2F34CD;
-  --secondary: #2226AD;
-  --light: #BEC0FF;
-  --extraPrimary: #A7A8D4;
-  --extraSecondary: #4E4546;
-
+  --white: #fcfcfd;
+  --primary: #2f34cd;
+  --secondary: #2226ad;
+  --light: #bec0ff;
+  --extraPrimary: #a7a8d4;
+  --extraSecondary: #4e4546;
 
   //colors
   --black: #000000;
@@ -89,6 +88,7 @@
 
   //radius
   --rfull: 100%;
+  --rhalf: 50%;
   --r2: 2px;
   --r4: 4px;
   --r5: 5px;
@@ -121,10 +121,12 @@
   --m100: 100px;
 
   //shadows
-  --primaryTextShadow: 2px 4px 4px rgba(0, 0, 0, 0.2), 0px -5px 10px rgba(255, 255, 255, 0.15);
+  --primaryTextShadow: 2px 4px 4px rgba(0, 0, 0, 0.2),
+    0px -5px 10px rgba(255, 255, 255, 0.15);
   --primaryBoxShadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   --defShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  --hvShadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  --hvShadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
   //sizes
   --fs10: 10px;
